@@ -1,0 +1,92 @@
+// body {
+//   background-image: url("https://cdn.wallpapersafari.com/20/35/hlezTG.jpg");
+//   background-size: cover;
+//   background-position: center center;
+//   background-repeat: no-repeat;
+// }
+
+.signup-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-image: 'https://cdn.wallpapersafari.com/20/35/hlezTG.jpg';
+}
+
+.form-container {
+  background-color: rgba(176, 120, 78, 0.924);
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  padding: 30px;
+  width: 400px;
+}
+
+.form-container h2 {
+  margin-top: 0;
+  font-size: 32px;
+  text-align: center;
+  color: rgb(0, 0, 0);
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: rgb(0, 0, 0);
+}
+
+.form-group input {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.form-group input:focus {
+  outline: none;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.form-group input:invalid {
+  border-color: #ff6666;
+}
+
+.form-group input:invalid:focus {
+  box-shadow: 0 0 10px rgba(255, 102, 102, 0.95);
+}
+
+.form-group input:valid {
+  border-color: #66ff66;
+}
+
+.form-group input:valid:focus {
+  box-shadow: 0 0 10px rgba(102, 255, 102, 0.95);
+}
+
+.form-group input[type="submit"] {
+  background-color: #333;
+  color: #fff;
+  font-size: 18px;
+  font-weight: bold;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.form-group input[type="submit"]:hover {
+  background-color: #222;
+}
+
+.form-group input[type="submit"]:focus {
+  outline: none;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
