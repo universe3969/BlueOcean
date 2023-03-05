@@ -1,20 +1,19 @@
-const { Client } = require('pg');
+// Config DOTENV
 const path = require('path');
 require('dotenv').config({ path: path.join(__dirname, '../.env') });
 
+// DB configs
+const configs = {
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  database: process.env.DB_NAME,
+  password: process.env.DB_PASS,
+  port: process.env.DB_PORT
+}
 
-const user = process.env.DB_USER;
-const host = process.env.DB_HOST;
-const database = process.env.DB_NAME;
-const password = process.env.DB_PASS;
-const port = process.env.DB_PORT;
+// Create pg client & pool
+const { Client, Pool } = require('pg');
+const client = new Client(configs);
+const pool = new Pool(configs); // you may want to add more config for pool
 
-const client = new Client({
-  user,
-  host,
-  database,
-  password,
-  port,
-});
-
-module.exports = client;
+module.exports = { client, pool };
