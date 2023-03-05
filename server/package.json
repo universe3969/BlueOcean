@@ -4,7 +4,9 @@
   "description": "Backend for Blue Ocean Project",
   "main": "index.js",
   "scripts": {
-    "server": "npx nodemon index.js"
+    "server": "npx nodemon index.js",
+    "build": "node database/build/index.js",
+    "seed": "node database/seed/index.js"
   },
   "keywords": [],
   "author": "Team Cabbage",
