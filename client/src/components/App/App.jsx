@@ -9,7 +9,10 @@ import Posts from '../Posts/Posts.jsx';
 import Messages from '../Messages/Messages.jsx';
 import Tinder from '../Tinder/Tinder.jsx';
 import Home from '../Home/Home.jsx';
-import ErrorPage from '../ErrorPage/ErrorPage.jsx';
+import ErrorPage from '../ErrorPage/ErrorPage.jsx';import LogSwitch from '../Login/LogSwitch.jsx';
+import Calls from '../ExamplePost/Calls.jsx'
+
+
 import './App.scss';
 
 

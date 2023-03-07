@@ -1,11 +1,12 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const Dotenv = require('dotenv-webpack');
 
-module.exports = { 
+module.exports = {
   mode: 'development',
   entry: {
     app: path.join(__dirname, './src/index.jsx'),
-  },  
+  },
   output: {
     path: path.join(__dirname, './public'),
     filename: '[name].bundle.js',
@@ -40,7 +41,8 @@ module.exports = {
     new HtmlWebpackPlugin({
       title: 'Webpack Boilerplate',
       template: path.join(__dirname, './src/template.html'),
-    })
+    }),
+    new Dotenv()
   ],
   devServer: {
     static: {

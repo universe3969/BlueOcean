@@ -1,33 +1,51 @@
 const express = require('express');
-const path = require('path');
-require('dotenv').config(path.join(__dirname, './.env'));
-
-const {client} = require('./database/database');
-
+const cors = require('cors');
+const { auth, requiredScopes } = require('express-oauth2-jwt-bearer');
+const path = require("path");
+require("dotenv").config(path.join(__dirname, "./.env"));
+const axios = require('axios');
 const app = express();
-
+const client = require("./database/database");
 const PORT = process.env.PORT || 3000;
-const { HOME_ROUTE } = require('./controllers/Controller/Controller');
-const FRIEND_ROUTES = require('./controllers/FriendControllers/FriendController');
 
-// import top-level middleware here
+
+
+app.use(cors())
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+//jsonwebtoken checker from Auth0
+const checkJwt = auth({
+  audience: process.env.audience,
+  issuerBaseURL: process.env.issuerBaseURL,
+});
 
 // routes
-for (const route of Object.keys(HOME_ROUTE)) {
-  app.get(route, (req, res) => new (HOME_ROUTE[route])().handle(req, res));
-}
-
-for (const route of Object.keys(FRIEND_ROUTES)) {
-  app.get(route, (req, res) => {
-    // console.log(req.query);
-    new (FRIEND_ROUTES[route])().handle(req.query.admin, req, res);
+// This route doesn't need authentication
+app.get('/regular', function(req, res) {
+  res.json({
+    message: 'Hello from a public endpoint! You don\'t need to be authenticated to see this.'
   });
-}
-
-client.connect().then(() => {
-  console.log('database connected');
-  app.listen(PORT, () => console.log(`App listening on PORT ${PORT}`));
 });
+
+// We can use this to have all routes below this to be protected routes
+app.use(checkJwt);
+
+// This route needs authentication because it uses checkJWT as a second argument
+app.get('/private', function(req, res) {
+  // how to grab user information if needed
+  //console.log(req.query)
+  res.json({
+    message: 'Hello from a private endpoint! You need to be authenticated to see this.'
+  });
+});
+
+
+
+// client.connect().then(() => {
+//   console.log("database connected");
+//   app.listen(PORT, () => console.log(`App listening on PORT ${PORT}`));
+// });
+
+// I haven't gotten the DB running on my end yet so I abstracted the server.
+app.listen(PORT, () => console.log(`App listening on PORT ${PORT}`))
