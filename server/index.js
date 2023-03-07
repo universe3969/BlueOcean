@@ -1,24 +1,26 @@
 const express = require('express');
 const cors = require('cors');
-const { auth, requiredScopes } = require('express-oauth2-jwt-bearer');
+// const { auth, requiredScopes } = require('express-oauth2-jwt-bearer');
 const path = require("path");
-require("dotenv").config(path.join(__dirname, "./.env"));
+// require("dotenv").config(path.join(__dirname, "./.env"));
 const axios = require('axios');
 const app = express();
 const client = require("./database/database");
 const PORT = process.env.PORT || 3000;
+const messageRouter = require('./MessageRoutes.js');
 
 
 
 app.use(cors())
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+// app.use(express.urlencoded({ extended: true }));
+app.use('/api/messages', messageRouter);
 
 //jsonwebtoken checker from Auth0
-const checkJwt = auth({
-  audience: process.env.audience,
-  issuerBaseURL: process.env.issuerBaseURL,
-});
+// const checkJwt = auth({
+//   audience: process.env.audience,
+//   issuerBaseURL: process.env.issuerBaseURL,
+// });
 
 // routes
 // This route doesn't need authentication
@@ -29,7 +31,7 @@ app.get('/regular', function(req, res) {
 });
 
 // We can use this to have all routes below this to be protected routes
-app.use(checkJwt);
+// app.use(checkJwt);
 
 // This route needs authentication because it uses checkJWT as a second argument
 app.get('/private', function(req, res) {
@@ -46,6 +48,7 @@ app.get('/private', function(req, res) {
 //   console.log("database connected");
 //   app.listen(PORT, () => console.log(`App listening on PORT ${PORT}`));
 // });
+
 
 // I haven't gotten the DB running on my end yet so I abstracted the server.
 app.listen(PORT, () => console.log(`App listening on PORT ${PORT}`))
