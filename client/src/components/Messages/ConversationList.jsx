@@ -2,8 +2,6 @@ import React from 'react';
 import ConversationListEntry from './ConversationListEntry.jsx';
 
 
-
-
 export default function ConversationList({converList}) {
   console.log("is props coming to the conver list ", converList)
 

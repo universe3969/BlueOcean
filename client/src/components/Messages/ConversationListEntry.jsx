@@ -2,7 +2,7 @@ import React from 'react';
 
 
 const ConversationListEntry = ({conversation}) => {
-  console.log("props in conList entry?",conversation )
+  // console.log("props in conList entry?",conversation )
 
   const {avator, username, lastMessage, lastMessageDate} = conversation;
 

@@ -34,7 +34,7 @@ const Messages = () => {
       ) : (
         <p>Loading...</p>
       )}
-      <Conversation selectedConversation={selectedConversation} />
+      {/* <Conversation selectedConversation={selectedConversation} /> */}
     </div>
   );
 }
