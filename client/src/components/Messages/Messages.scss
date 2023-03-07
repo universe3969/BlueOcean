@@ -1,0 +1,19 @@
+.root {
+  display: flex;
+}
+
+.message-main {
+  flex: 1;
+}
+
+.conversation-list {
+  display: inline;
+  width: 50%;
+  text-align: center;
+}
+
+.conversation-page {
+  display: inline-block;
+  width: 40%;
+  text-align: center;
+}

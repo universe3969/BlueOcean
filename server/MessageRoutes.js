@@ -28,7 +28,7 @@ router.get('/:userId/messages', async (req, res) => {
        ORDER BY users.id`,
        [userId]
     );
-    console.log(result)
+    console.log("this is the ressult for this user", result)
     // Format results as an array of objects
     const formattedResults = result.rows.map(row => ({
       id: row.id,
@@ -49,6 +49,8 @@ router.get('/:userId/messages', async (req, res) => {
     res.status(500).send('Internal server error');
   }
 });
+
+
 
 router.post('/messages', async (req, res) => {
   const { from_id, to_id, body } = req.body;
