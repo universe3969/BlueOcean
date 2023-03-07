@@ -21,12 +21,20 @@ const books_genres = `CREATE TABLE books_genres (
   genre_id INT NOT NULL REFERENCES genres
 )`;
 
+// avator is a link to the photo, if not provided we should have a default avator
 const users = `CREATE TABLE users (
   id SERIAL PRIMARY KEY,
   username VARCHAR(255) UNIQUE NOT NULL,
   password VARCHAR(255) NOT NULL,
   email VARCHAR(255) UNIQUE NOT NULL,
+  avator VARCHAR(255),  
   bio JSON
+)`;
+
+const users_books = `CREATE TABLE users_books (
+  id SERIAL PRIMARY KEY,
+  user_id INT NOT NULL REFERENCES users,
+  book_id INT NOT NULL REFERENCES books
 )`;
 
 const users_genres = `CREATE TABLE users_genres (
@@ -46,11 +54,29 @@ const friendships = `CREATE TABLE friendships (
   status friendships_status
 )`;
 
+// All reviews, notes, and posts live in posts table
+const posts_type = `CREATE TYPE posts_type
+  AS ENUM('review', 'post', 'note')
+`;
+
+// Right now we don't support photos for posts
 const posts = `CREATE TABLE posts (
-  
+  id SERIAL PRIMARY KEY,
+  body TEXT NOT NULL,
+  user_id INT NOT NULL REFERENCES users,
+  book_id INT REFERENCES books,
+  last_updated DATE DEFAULT NOW(),
+  last_created DATE DEFAULT NOW(),
+  type posts_type NOT NULL
 )`;
 
-
+const messages = `CREATE TABLE messages (
+  id SERIAL PRIMARY KEY,
+  body TEXT NOT NULL, 
+  from_id INT NOT NULL REFERENCES users,
+  to_id INT NOT NULL REFERENCES users,
+  date DATE DEFAULT NOW()
+)`;
 
 module.exports = {
   books,
@@ -58,6 +84,10 @@ module.exports = {
   books_genres,
   users,
   users_genres,
+  users_books,
   friendships_status,
   friendships,
+  posts_type,
+  posts,
+  messages
 };
