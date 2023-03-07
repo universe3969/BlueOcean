@@ -2,13 +2,13 @@ const express = require('express');
 const path = require('path');
 require('dotenv').config(path.join(__dirname, './.env'));
 
-const client = require('./database/database');
+const {client} = require('./database/database');
 
 const app = express();
 
 const PORT = process.env.PORT || 3000;
 const { HOME_ROUTE } = require('./controllers/Controller/Controller');
-const FRIEND_ROUTES = require('./controllers/FriendControllers/friendController');
+const FRIEND_ROUTES = require('./controllers/FriendControllers/FriendController');
 
 // import top-level middleware here
 app.use(express.json());
@@ -31,4 +31,3 @@ client.connect().then(() => {
   console.log('database connected');
   app.listen(PORT, () => console.log(`App listening on PORT ${PORT}`));
 });
-
