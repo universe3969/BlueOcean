@@ -6,6 +6,7 @@ import './Home.scss';
 export default function Home() {
   return (
     <main>
+      this is home
     </main>
   );
 }

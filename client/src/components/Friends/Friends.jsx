@@ -6,6 +6,7 @@ import './Friends.scss';
 export default function Friends() {
   return (
     <main>
+      hello
     </main>
   );
 }

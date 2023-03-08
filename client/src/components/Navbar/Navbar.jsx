@@ -20,7 +20,14 @@ export default function Navbar() {
 
   // All navigation tab should show active state corresponding to url
   const navItems = tabs.map(tab => {
-    const path = `/${tab.toLowerCase()}`;
+    let path;
+    if (tab === 'Profile') {
+      path = `/${tab.toLowerCase()}/1`;
+    } else {
+      path = `/${tab.toLowerCase()}`;
+    }
+    // const path = `/${tab.toLowerCase()}`;
+
     const onActive = ({ isActive }) => isActive ? 'app__sidebar--active' : null;
 
     return (
@@ -32,7 +39,6 @@ export default function Navbar() {
       </div>
     );
   });
-
   return (
     <aside className='app__sidebar'>
       <header>
