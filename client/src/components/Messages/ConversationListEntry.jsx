@@ -1,13 +1,13 @@
 import React from 'react';
 
 
-const ConversationListEntry = ({conversation}) => {
+const ConversationListEntry = ({conversation, onClick}) => {
   // console.log("props in conList entry?",conversation )
 
   const {avator, username, lastMessage, lastMessageDate} = conversation;
 
   return (
-    <div className="conversation-list-entry">
+    <div className="conversation-list-entry" onClick={onClick}>
       <img src={avator} alt={username} />
       <div className="conversation-info">
         <h2>{username}</h2>

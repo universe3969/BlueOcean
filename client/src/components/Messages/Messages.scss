@@ -1,19 +1,26 @@
-.root {
+.message-main {
+  flex:1;
   display: flex;
 }
 
-.message-main {
-  flex: 1;
-}
-
-.conversation-list {
-  display: inline;
-  width: 50%;
-  text-align: center;
+.conversation-history-list {
+  width: 65%;
 }
 
 .conversation-page {
-  display: inline-block;
   width: 40%;
-  text-align: center;
+}
+
+.friend-sender {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-right: 10px;
+}
+
+.user-sender {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-left: 10px;
 }

@@ -28,7 +28,7 @@ router.get('/:userId/messages', async (req, res) => {
        ORDER BY users.id`,
        [userId]
     );
-    console.log("this is the ressult for this user", result)
+    // console.log("this is the ressult for this user", result)
     // Format results as an array of objects
     const formattedResults = result.rows.map(row => ({
       id: row.id,
@@ -68,5 +68,21 @@ router.post('/messages', async (req, res) => {
   }
 });
 
+router.get('/:userId/:friendId', async (req, res) => {
+  const {userId, friendId} = req.params;
+  console.log(`trying to get messages history between ${userId} and ${friendId}`)
+
+  const messageHistory = await pool.query(
+    `SELECT m.body, m.from_id, m.to_id, m.date, m.body, u1.avator as sender_avatar_url, u2.avator as receiver_avatar_url, u2.username as friend_username, u3.id as user_id, u2.id as friend_id, u2.avator as friend_avatar_url, u1.avator as user_avatar_url
+     FROM messages m
+     JOIN users u1 ON m.from_id = u1.id
+     JOIN users u2 ON m.to_id = u2.id
+     JOIN users u3 ON m.from_id = u3.id
+     WHERE (m.from_id = $1 AND m.to_id = $2) OR (m.from_id = $2 AND m.to_id = $1)
+     ORDER BY m.date ASC`,
+    [userId, friendId]
+  );
+  res.json(messageHistory.rows);
+})
 
 module.exports = router;
