@@ -45,10 +45,20 @@ const Messages = () => {
       });
   };
 
+  const updateConversationList = () => {
+    axios.get(`http://localhost:3000/api/messages/${user.id}/messages`)
+      .then(response => {
+        setConverList(response.data);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
 
   const handleConversationClick = (conversation) => {
-    console.log("what is conversation looks like : ", conversation)
+    // console.log("what is conversation looks like : ", conversation)
     fetchConversationHistory(conversation.id)
+    updateConversationList();
   }
 
   return (
@@ -67,6 +77,7 @@ const Messages = () => {
           friendAvatarUrl={selectedConversation[0].friendAvatarUrl}
           selectedConversation={selectedConversation}
           setSelectedConversation={setSelectedConversation}
+          updateConversationList={updateConversationList}
         />
         )}
     </div>
