@@ -2,13 +2,14 @@ import React, { useState, useEffect } from 'react';
 import Icons from './Icons.jsx';
 import { Link, NavLink } from 'react-router-dom';
 import './Navbar.scss';
+import LogSwitch from '../Login/LogSwitch.jsx'
 
 // Navigation tabs title
 const tabs = ['Home', 'Books', 'Friends', 'Posts', 'Messages', 'Profile', 'Explore'];
 
 export default function Navbar() {
   const [currentPath, setCurrentPath] = useState('/');
-  
+
   // Whenever current url changes, it should reset the [currentPath] state
   useEffect(() => {
     const onPathChange = () => setCurrentPath(window.location.pathname);
@@ -29,7 +30,7 @@ export default function Navbar() {
           <span>{ tab }</span>
         </NavLink>
       </div>
-    );  
+    );
   });
 
   return (
@@ -49,6 +50,7 @@ export default function Navbar() {
           { Icons.Settings({ title: 'Settings' }) }
           { Icons.LightMode({ title: 'LightMode' }) }
           { Icons.More({ title: 'More' }) }
+          <LogSwitch/>
         </section>
       </footer>
     </aside>
