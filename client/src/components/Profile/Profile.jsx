@@ -61,11 +61,15 @@ export default function Profile () {
 
       <div className="profile-post-container">
         {posts.map((post, index) => (
-        <div className="profile-post" key={index}>
-          <div>{post.user}</div>
-          <p>{post.content}</p>
-          <p>Created At: {post.createdAt}</p>
-        </div>
+          <div className="profile-post" key={index}>
+            <div>{post.user}</div>
+            <p>{post.content}</p>
+            <p>Created At: {post.createdAt}</p>
+            <div className="post-buttons">
+              <button className="edit-button">Edit</button>
+              <button className="delete-button">Delete</button>
+            </div>
+          </div>
         ))}
       </div>
 
@@ -90,6 +94,8 @@ export default function Profile () {
               <p key={index}>{interest}</p>
             ))}
         </div>
+        <button>Add Friend</button>
+        <button>Edit profile</button>
       </div>
 
     </main>

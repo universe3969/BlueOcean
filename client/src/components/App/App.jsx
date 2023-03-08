@@ -19,7 +19,7 @@ import './App.scss';
 export default function App() {
 
   return (
-    < >
+    <>
       <Routes>
         <Route path='/' element={ null } />
         <Route path='*' element={ <Navbar /> } />
@@ -40,17 +40,3 @@ export default function App() {
     </>
   );
 }
-{/* <>
-<Navbar />
-<Routes>
-  <Route path='/' element={ <Home /> } />
-  <Route path='/home' element={ <Home /> } />
-  <Route path='/books' element={ <Books /> } />
-  <Route path='/friends' element={ <Friends /> } />
-  <Route path='/posts' element={ <Posts />} />
-  <Route path='/messages' element={ <Messages /> } />
-  <Route path='/profile' element={ <Profile /> } />
-  <Route path='/explore' element={ <Tinder /> } />
-  <Route path='*' element={ <ErrorPage /> } />
-</Routes>
-</> */}

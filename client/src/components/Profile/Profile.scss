@@ -1,9 +1,9 @@
 .profile-page-container {
   display: flex;
   flex-direction: row;
-  height: 100vh;
 }
 .profile-post-container {
+  background-color: rgba($color: #7b4000, $alpha: 1.0);
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -13,7 +13,7 @@
 }
 .profile-bio-container {
   flex: 1;
-  background-color: rgba(165, 103, 63, 0.7);
+  background-color: rgba($color: #ba5c0a, $alpha: 1.0);
   flex-direction: column;
   align-items: center;
   text-align: center;
@@ -31,9 +31,7 @@
 .profile-page-username {
   font-size: 36px;
   font-weight: bold;
-  background-image: linear-gradient(to right, rgba(165, 103, 63, 0.2), rgba(165, 103, 63, 0.4), rgba(165, 103, 63, 0.6), rgba(165, 103, 63, 0.8), rgba(165, 103, 63, 1));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: black;
 }
 
 .profile-page-avatar {
@@ -42,12 +40,6 @@
   border-radius: 50%;
   margin-top: 20px;
   margin-bottom: 20px;
-}
-
-.profile-bio-container div:not(.profile-page-username) {
-  font-size: 24px;
-  color: rgba(165, 103, 63, 0.8);
-  margin-bottom: 10px;
 }
 
 .profile-page-books-container {
@@ -75,7 +67,7 @@
 
 .profile-page-interests-container p {
   background-color: rgba(165, 103, 63, 0.5);
-  color: #fff;
+  color: #ffffff;
   border-radius: 10px;
   padding: 10px 20px;
   margin: 10px;

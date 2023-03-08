@@ -62,21 +62,3 @@ export default function Navbar() {
     </aside>
   );
 }
-
-// const [activeTab, setActiveTab] = useState('book');
-
-// const handleTabClick = useCallback((tab) => {
-//   console.log(`currently viewing ${tab}`);
-//   setActiveTab(tab);
-// }, []);
-// <div className="navbar-container">
-//   <span>This is the navbar</span>
-//   <div className="homepage-tab-container">
-//     <div className={activeTab === 'books' ? 'active-tab': ''} onClick={() => handleTabClick('books')}>My books</div>
-//     <div className={activeTab === 'messages' ? 'active-tab': ''} onClick={() => handleTabClick('messages')}>My messages</div>
-//     <div className={activeTab === 'friends' ? 'active-tab': ''} onClick={() => handleTabClick('friends')}>My friends</div>
-//     <div className={activeTab === 'notes' ? 'active-tab': ''} onClick={() => handleTabClick('notes')}>My notes</div>
-//     <div className={activeTab === 'profile' ? 'active-tab': ''} onClick={() => handleTabClick('profile')}>My profile</div>
-//   </div>
-// </div>
-
