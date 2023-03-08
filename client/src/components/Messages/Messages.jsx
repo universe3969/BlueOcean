@@ -66,6 +66,7 @@ const Messages = () => {
           userAvatarUrl={selectedConversation[0].userAvatarUrl}
           friendAvatarUrl={selectedConversation[0].friendAvatarUrl}
           selectedConversation={selectedConversation}
+          setSelectedConversation={setSelectedConversation}
         />
         )}
     </div>

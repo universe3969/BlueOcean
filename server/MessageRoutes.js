@@ -50,24 +50,6 @@ router.get('/:userId/messages', async (req, res) => {
   }
 });
 
-
-
-router.post('/messages', async (req, res) => {
-  const { from_id, to_id, body } = req.body;
-  try {
-    const result = await pool.query(
-      `INSERT INTO messages (from_id, to_id, body)
-       VALUES ($1, $2, $3)
-       RETURNING *`,
-      [from_id, to_id, body]
-    );
-    res.json(result.rows[0]);
-  } catch (err) {
-    console.error(err);
-    res.status(500).send('Internal server error');
-  }
-});
-
 router.get('/:userId/:friendId', async (req, res) => {
   const {userId, friendId} = req.params;
   console.log(`trying to get messages history between ${userId} and ${friendId}`)
@@ -84,5 +66,22 @@ router.get('/:userId/:friendId', async (req, res) => {
   );
   res.json(messageHistory.rows);
 })
+
+router.post('/messages', async (req, res) => {
+  console.log("posing a message? ", req.body)
+  try {
+    const { fromId, toId, body } = req.body;
+    const result = await pool.query(
+      'INSERT INTO messages (from_id, to_id, body) VALUES ($1, $2, $3) RETURNING *',
+      [fromId, toId, body]
+    );
+    const message = result.rows[0];
+    res.json(message);
+  } catch (error) {
+    console.error('Failed to send message.', error);
+    res.status(500).send('Internal server error');
+  }
+});
+
 
 module.exports = router;
