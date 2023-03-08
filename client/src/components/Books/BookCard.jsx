@@ -15,7 +15,7 @@ export default function BookCard({ id, title, author, cover_image }) {
         </div>
         <div className='book__card__buttons'>
           <NavLink to={ `/books/id/${id}` }>
-            <span>
+            <span>Read More</span>
           </NavLink>
           <button>
             Add Review

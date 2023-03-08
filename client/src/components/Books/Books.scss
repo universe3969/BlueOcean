@@ -2,4 +2,36 @@ $color--font: black;
 $color--background: white;
 $color--contrast: tomato;
 
+.app__books {
+  display: flex;
 
+  &__main {
+    width: 50%;
+    border: 5px solid black;
+    padding: 1rem;
+  }
+
+  &__sub {
+    width: 50%;
+    //border: 5px solid orange;
+  }
+
+  // Top-level Search Bar
+  &__search {
+    width: 100%;
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    border: 3px solid $color--font;
+    border-radius: 1.5rem;
+
+    svg {
+      margin-left: 0.5rem;
+    }
+
+    input {
+      all: unset;
+    }
+  }
+}

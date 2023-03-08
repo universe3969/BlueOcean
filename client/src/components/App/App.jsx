@@ -23,7 +23,7 @@ export default function App() {
       <Routes>
         <Route path='/' element={ <Books /> } />
         <Route path='/home' element={ <Home /> } />
-        <Route path='/books' element={ <Books /> } />
+        <Route path='/books/*' element={ <Books /> } />
         <Route path='/friends' element={ <Friends /> } />
         <Route path='/posts' element={ <Posts />} />
         <Route path='/messages' element={ <Messages /> } />
