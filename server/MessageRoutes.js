@@ -52,22 +52,45 @@ router.get('/:userId/messages', async (req, res) => {
 });
 
 router.get('/:userId/:friendId', async (req, res) => {
-  console.log("get user avator info router get hit ")
-  const {userId, friendId} = req.params;
-  // console.log(`trying to get messages history between ${userId} and ${friendId}`)
+  const { userId, friendId } = req.params;
+  const userAvator = await pool.query(
+    `SELECT id, username, avator
+    FROM users
+    WHERE id = $1
+    `,[userId]
+  )
+  const friendAvator = await pool.query(
+    `SELECT id, username, avator
+    FROM users
+    WHERE id = $1
+    `,[friendId]
+  )
+  console.log("here is the response for userAvator ",userAvator.rows, "followed by friendAvator :",friendAvator.rows)
+
+  const friend_avator = friendAvator.rows[0].avator
+  const friend_username = friendAvator.rows[0].username
+  const user_avator = userAvator.rows[0].avator
 
   const messageHistory = await pool.query(
-    `SELECT m.body, m.from_id, m.to_id, m.date, m.body, u1.avator as sender_avatar_url, u2.avator as receiver_avatar_url, u2.username as friend_username, u3.id as user_id, u2.id as friend_id, u2.avator as friend_avatar_url, u1.avator as user_avatar_url
+    `SELECT m.body, m.from_id, m.to_id, m.date, u2.username as friend_username
      FROM messages m
-     JOIN users u1 ON m.from_id = u1.id
      JOIN users u2 ON m.to_id = u2.id
-     JOIN users u3 ON m.from_id = u3.id
      WHERE (m.from_id = $1 AND m.to_id = $2) OR (m.from_id = $2 AND m.to_id = $1)
      ORDER BY m.date ASC`,
     [userId, friendId]
   );
-  res.json(messageHistory.rows);
-})
+  const messagesWithUsers = messageHistory.rows.map(message => ({
+    fromId: message.from_id,
+    toId: message.to_id,
+    body: message.body,
+    friendAvator: friend_avator,
+    friendUsername: friend_username,
+    userAvator:user_avator,
+    friendId:friendId
+  }));
+  console.log("messages send back to front end: ", messagesWithUsers)
+  res.json(messagesWithUsers);
+});
 
 router.post('/messages', async (req, res) => {
   console.log("posing message router get hit? ", req.body)
