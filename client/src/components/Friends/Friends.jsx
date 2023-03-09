@@ -32,6 +32,7 @@ export default function Friends() {
       city: 'Seattle',
       interests: ['coding', 'cooking', 'biking'],
       avatar: 'https://partyanimals.com/static/avatars-04.png',
+
     },
   ];
 
@@ -47,7 +48,6 @@ export default function Friends() {
               <p>{friend.age} years old</p>
               <p>{friend.gender}</p>
               <p>Interests: {friend.interests.join(', ')}</p>
-              <button>Message</button>
             </div>
           </li>
         ))}
