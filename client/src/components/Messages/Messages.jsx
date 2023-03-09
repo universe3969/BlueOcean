@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ConversationList from './ConversationList.jsx';
 import Conversation from './Conversation.jsx';
+import NewConversation from './NewConversation.jsx';
 import axios from 'axios';
 import './Messages.scss';
 
@@ -70,7 +71,7 @@ const Messages = () => {
       ) : (
         <p>Loading...</p>
       )}
-      {selectedConversation && (
+      {selectedConversation ? (
         <Conversation
           friendUsername={selectedConversation[0].friendUsername}
           friendId={selectedConversation[0].friendsId}
@@ -80,8 +81,10 @@ const Messages = () => {
           selectedConversation={selectedConversation}
           setSelectedConversation={setSelectedConversation}
           updateConversationList={updateConversationList}
-        />
+        />):(
+        <NewConversation userId={user.id} updateConversationList={updateConversationList} onConversationClick={handleConversationClick}/>
         )}
+
     </div>
   );
 }

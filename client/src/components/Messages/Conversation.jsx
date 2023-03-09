@@ -14,6 +14,12 @@ const Conversation = ({ selectedConversation, friendUsername, friendId, userId, 
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+
+    if (newMessage.trim() === '') {
+      alert('Please enter a message');
+      return;
+    }
+
     try {
       const response = await axios.post('http://localhost:3000/api/messages/messages', {
         fromId: userId,

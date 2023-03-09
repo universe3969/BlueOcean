@@ -4,15 +4,18 @@
 }
 
 .conversation-history-list {
-  display: flex;
+  display: inline-grid;
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
   gap: 1rem;
   margin: 0 auto;
-  max-width: 40%;
+  min-width: 55%;
   max-height: fit-content;
   overflow-y: scroll;
+  border-right: 4px solid black;
+  border-bottom: 4px solid black;
+  border-top: 4px solid black;
 }
 
 .conversation-history-list::-webkit-scrollbar {
@@ -20,11 +23,14 @@
 }
 
 .conversation-page {
-  width: 40%;
+  width: -webkit-fill-available;
   max-height: fit-content;
   overflow-y: scroll;
   display: flex;
   flex-direction: column;
+  border-top: 4px solid black;
+  border-right: 5px solid black;
+  border-bottom: 5px solid black;
 }
 
 .conversation-page::-webkit-scrollbar {
@@ -78,16 +84,21 @@
 .conversation-list-entry-info {
   flex-grow: 1;
   overflow: hidden;
+  // font-family: Arial, sans-serif;
+  // color: #333;
+  // display: flex;
+  // flex-direction: column;
+  // justify-content: center;
 }
 
 .conversation-list-entry-username {
-  font-size: 1rem;
+  font-size: 1.2rem;
   font-weight: bold;
 }
 
 .conversation-list-entry-last-message {
-  margin-top: 0.25rem;
-  font-size: 0.875rem;
+  margin-top: 5px;
+  font-size: 1 rem;
   color: #999;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -96,8 +107,9 @@
 
 .conversation-list-entry-last-message-date {
   margin-left: auto;
-  font-size: 0.75rem;
-  color: #ccc;
+  font-size: 0.8rem;
+  color: #999;
+  font-style: italic;
 }
 
 .conversation-list-entry:nth-child(odd) {
@@ -109,10 +121,11 @@
 }
 
 .sender-avatar {
-  width: 3.5rem;
-  height: 3.5rem;
+  width: 2.5rem;
+  height: 2.5rem;
   border-radius: 50%;
   overflow: hidden;
+  margin:2px;
 }
 
 .user-message {
@@ -169,3 +182,24 @@
   cursor: pointer;
 }
 
+.message-text {
+  background-color: #f2f2f2;
+  border: 1px solid #ddd;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.start-new-conversation {
+  display: inlie-grid;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin: 0 auto;
+  min-width: 55%;
+  max-height: fit-content;
+  overflow-y: scroll;
+  border-right: 4px solid black;
+  border-bottom: 4px solid black;
+  border-top: 4px solid black;
+}

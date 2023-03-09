@@ -2,6 +2,23 @@ const express = require('express')
 const router = express.Router()
 const {pool} = require('./database/database.js')
 
+
+
+router.get('/:userId/friends', async (req, res) => {
+  console.log("try to get friends list from friends ", req.params)
+  const {userId} = req.params;
+
+  const friends = await pool.query(
+    `SELECT u.id, u.username, u.avator
+    FROM friendships f
+    JOIN users u ON f.friend_id = u.id
+    WHERE f.user_id = $1`,
+    [userId]
+  );
+
+  res.json(friends.rows);
+})
+
 router.get('/:userId/messages', async (req, res) => {
   console.log("get messages router get hit!")
   const {userId} = req.params;
