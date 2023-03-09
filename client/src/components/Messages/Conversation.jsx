@@ -4,7 +4,7 @@ import axios from 'axios';
 
 const Conversation = ({ selectedConversation, friendUsername, friendId, userId, userAvatarUrl, friendAvatarUrl, setSelectedConversation, updateConversationList }) => {
 
-  console.log("how about the props sending in conversation", { selectedConversation, friendUsername, friendId, userId, userAvatarUrl, friendAvatarUrl, setSelectedConversation, updateConversationList });
+  // console.log("how about the props sending in conversation", { selectedConversation, friendUsername, friendId, userId, userAvatarUrl, friendAvatarUrl, setSelectedConversation, updateConversationList });
 
   const [newMessage, setNewMessage] = useState('');
 

@@ -2,10 +2,8 @@ const express = require('express')
 const router = express.Router()
 const {pool} = require('./database/database.js')
 
-
-
 router.get('/:userId/friends', async (req, res) => {
-  console.log("try to get friends list from friends ", req.params)
+  // console.log("try to get friends list from friends ", req.params)
   const {userId} = req.params;
 
   const friends = await pool.query(
@@ -20,7 +18,7 @@ router.get('/:userId/friends', async (req, res) => {
 })
 
 router.get('/:userId/messages', async (req, res) => {
-  console.log("get messages router get hit!")
+  // console.log("get messages router get hit!")
   const {userId} = req.params;
   try {
     const result = await pool.query(
@@ -46,7 +44,7 @@ router.get('/:userId/messages', async (req, res) => {
        ORDER BY users.id`,
        [userId]
     );
-    // console.log("this is the ressult for this user", result)
+
     // Format results as an array of objects
     const formattedResults = result.rows.map(row => ({
       id: row.id,
@@ -69,6 +67,7 @@ router.get('/:userId/messages', async (req, res) => {
 });
 
 router.get('/:userId/:friendId', async (req, res) => {
+  console.log("get usr/friend id route get hit ", req.params)
   const { userId, friendId } = req.params;
   const userAvator = await pool.query(
     `SELECT id, username, avator
@@ -82,7 +81,7 @@ router.get('/:userId/:friendId', async (req, res) => {
     WHERE id = $1
     `,[friendId]
   )
-  console.log("here is the response for userAvator ",userAvator.rows, "followed by friendAvator :",friendAvator.rows)
+  // console.log("here is the response for userAvator ",userAvator.rows, "followed by friendAvator :",friendAvator.rows)
 
   const friend_avator = friendAvator.rows[0].avator
   const friend_username = friendAvator.rows[0].username
@@ -105,12 +104,12 @@ router.get('/:userId/:friendId', async (req, res) => {
     userAvator:user_avator,
     friendId:friendId
   }));
-  console.log("messages send back to front end: ", messagesWithUsers)
+  // console.log("messages send back to front end: ", messagesWithUsers)
   res.json(messagesWithUsers);
 });
 
 router.post('/messages', async (req, res) => {
-  console.log("posing message router get hit? ", req.body)
+  // console.log("posing message router get hit? ", req.body)
   try {
     const { fromId, toId, body } = req.body;
     const result = await pool.query(
@@ -124,6 +123,5 @@ router.post('/messages', async (req, res) => {
     res.status(500).send('Internal server error');
   }
 });
-
 
 module.exports = router;

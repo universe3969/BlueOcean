@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 
-const NewConversation = ({ userId, onClose, updateConversationList,onConversationClick}) => {
+const NewConversation = ({ userId, updateConversationList,onConversationClick, fetchConversationHistory}) => {
   const [friends, setFriends] = useState([]);
   const [selectedFriendId, setSelectedFriendId] = useState(null);
   const [messageBody, setMessageBody] = useState('');
@@ -36,29 +36,15 @@ const NewConversation = ({ userId, onClose, updateConversationList,onConversatio
         body: messageBody,
       })
       .then((response) => {
+        console.log("newconversation part, what is response :", response.data)
         updateConversationList();
-        onClose();
-
-        const friendId = response.data.friendId;
-
-        // Check if the selected friend is already in the conversation list
-        const existingConversation = converList.find(
-          (conversation) => conversation.friendId === friendId
-        );
-
-        if (existingConversation) {
-          // Navigate to the existing conversation
-          handleConversationClick(existingConversation);
-        } else {
-          // Create a new conversation
-          onConversationClick({ id: friendId });
-        }
+        const friendId = response.data.to_id;
+        fetchConversationHistory(friendId);
       })
       .catch((error) => {
         console.log(error);
       });
   };
-
 
   return (
     <div className="new-conversation-container">

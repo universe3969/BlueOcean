@@ -22,7 +22,7 @@ const Messages = () => {
         console.log(err);
       })
 
-  }, []);
+  }, [selectedConversation]);
 
   const fetchConversationHistory = (friendId) => {
     axios
@@ -82,7 +82,7 @@ const Messages = () => {
           setSelectedConversation={setSelectedConversation}
           updateConversationList={updateConversationList}
         />):(
-        <NewConversation userId={user.id} updateConversationList={updateConversationList} onConversationClick={handleConversationClick}/>
+        <NewConversation userId={user.id} updateConversationList={updateConversationList} onConversationClick={handleConversationClick} fetchConversationHistory={fetchConversationHistory} />
         )}
 
     </div>
