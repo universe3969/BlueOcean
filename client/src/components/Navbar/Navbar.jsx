@@ -2,13 +2,14 @@ import React, { useState, useEffect } from 'react';
 import Icons from './Icons.jsx';
 import { Link, NavLink } from 'react-router-dom';
 import './Navbar.scss';
+import LogSwitch from '../Login/LogSwitch.jsx'
 
 // Navigation tabs title
 const tabs = ['Home', 'Books', 'Friends', 'Posts', 'Messages', 'Profile', 'Explore'];
 
 export default function Navbar() {
   const [currentPath, setCurrentPath] = useState('/');
-  
+
   // Whenever current url changes, it should reset the [currentPath] state
   useEffect(() => {
     const onPathChange = () => setCurrentPath(window.location.pathname);
@@ -19,7 +20,14 @@ export default function Navbar() {
 
   // All navigation tab should show active state corresponding to url
   const navItems = tabs.map(tab => {
-    const path = `/${tab.toLowerCase()}`;
+    let path;
+    if (tab === 'Profile') {
+      path = `/${tab.toLowerCase()}/1`;
+    } else {
+      path = `/${tab.toLowerCase()}`;
+    }
+    // const path = `/${tab.toLowerCase()}`;
+
     const onActive = ({ isActive }) => isActive ? 'app__sidebar--active' : null;
 
     return (
@@ -29,9 +37,8 @@ export default function Navbar() {
           <span>{ tab }</span>
         </NavLink>
       </div>
-    );  
+    );
   });
-
   return (
     <aside className='app__sidebar'>
       <header>
@@ -49,26 +56,9 @@ export default function Navbar() {
           { Icons.Settings({ title: 'Settings' }) }
           { Icons.LightMode({ title: 'LightMode' }) }
           { Icons.More({ title: 'More' }) }
+          <LogSwitch/>
         </section>
       </footer>
     </aside>
   );
 }
-
-// const [activeTab, setActiveTab] = useState('book');
-
-// const handleTabClick = useCallback((tab) => {
-//   console.log(`currently viewing ${tab}`);
-//   setActiveTab(tab);
-// }, []);
-// <div className="navbar-container">
-//   <span>This is the navbar</span>
-//   <div className="homepage-tab-container">
-//     <div className={activeTab === 'books' ? 'active-tab': ''} onClick={() => handleTabClick('books')}>My books</div>
-//     <div className={activeTab === 'messages' ? 'active-tab': ''} onClick={() => handleTabClick('messages')}>My messages</div>
-//     <div className={activeTab === 'friends' ? 'active-tab': ''} onClick={() => handleTabClick('friends')}>My friends</div>
-//     <div className={activeTab === 'notes' ? 'active-tab': ''} onClick={() => handleTabClick('notes')}>My notes</div>
-//     <div className={activeTab === 'profile' ? 'active-tab': ''} onClick={() => handleTabClick('profile')}>My profile</div>
-//   </div>
-// </div>
-

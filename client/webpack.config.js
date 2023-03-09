@@ -45,6 +45,8 @@ module.exports = {
     new Dotenv()
   ],
   devServer: {
+    //need to handle client side routing
+    historyApiFallback: true,
     static: {
       directory: path.join(__dirname, './public'),
     },
