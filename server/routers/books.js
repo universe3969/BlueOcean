@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { queryAllBooks, queryBookById, queryBooksByTitle } = require('../models/books.js');
+const model = require('../models/books.js');
 
 // -------------------------- Warning ------------------------
 // No validation nor correct error handling!!!!!!
@@ -10,7 +10,7 @@ const { queryAllBooks, queryBookById, queryBooksByTitle } = require('../models/b
 // Right now it has no validation, which is bad, but refactor later, push MVP
 router.get('/', async(req, res) => {
   try {
-    const result = await queryAllBooks(req.query);
+    const result = await model.queryAllBooks(req.query);
     res.status(200).json(result);
   } catch (err) {
     console.log(err);
@@ -21,7 +21,7 @@ router.get('/', async(req, res) => {
 // Get book by ID
 router.get('/id/:id', async(req, res) => {
   try {
-    const result = await queryBookById(req.params.id);
+    const result = await model.queryBookById(req.params.id);
     res.status(200).json(result); 
   } catch (err) {
     console.log(err);
@@ -33,7 +33,7 @@ router.get('/id/:id', async(req, res) => {
 router.get('/title/:title', async(req, res) => {
   console.log(req.params.title);
   try {
-    const result = await queryBooksByTitle(req.params.title);
+    const result = await model.queryBooksByTitle(req.params.title);
     res.status(200).json(result); 
   } catch (err) {
     console.log(err);
@@ -43,7 +43,13 @@ router.get('/title/:title', async(req, res) => {
 
 // Get book by User, implemented later
 router.get('/user/:userId', async(req, res) => {
-  res.sendStatus(501);
+  try {
+    const result = await model.queryBooksByUser(req.params.userId);
+    res.status(200).json(result); 
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: err });
+  }
 });
 
 module.exports = router;

@@ -39,17 +39,32 @@ async function queryBookById(bookId) {
   return bookInfo;
 }
 
+// Order by reverse insertion order
 async function queryBooksByUser(userId) {
-  
+  const queryString = `
+    SELECT id, title, author, cover_image
+    FROM books 
+    WHERE id IN ( 
+      SELECT book_id 
+      FROM users_books
+      WHERE user_id = $1
+    )
+    ORDER BY id DESC 
+  `;
+
+  const res = await pool.query(queryString, [userId]);
+  return res.rows;
 }
 
 // Live search functinality, search using regex on title
 // should only return { bookId, author, title, [*cover_iamge] }
+// Also should only show first 10 results, for faster data transmission
 async function queryBooksByTitle(bookName) {
   const queryString = `
     SELECT id, title, author, cover_image
     FROM books
-    WHERE title ILIKE $1 
+    WHERE title ILIKE $1
+    LIMIT 10 
   `;
 
   const res = await pool.query(queryString, [bookName + '%']);
@@ -57,4 +72,4 @@ async function queryBooksByTitle(bookName) {
 }
 
 // Only support three functions for now
-module.exports = { queryAllBooks, queryBookById, queryBooksByTitle };
+module.exports = { queryBooksByUser, queryAllBooks, queryBookById, queryBooksByTitle };

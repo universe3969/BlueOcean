@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 
-export default function BookDetail() {
-  const { id } = useParams();
+export default function BookDetail({ bookId }) {
+  const id = bookId || useParams().id;
   const [bookInfo, setBookInfo] = useState(null);
 
   useEffect(() => {

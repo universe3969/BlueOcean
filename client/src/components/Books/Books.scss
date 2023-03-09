@@ -42,6 +42,7 @@ $color--contrast: tomato;
     gap: 1rem;
     border: 3px solid $color--font;
     border-radius: 1.5rem;
+    position: relative;
 
     svg {
       margin-left: 0.5rem;
@@ -51,6 +52,57 @@ $color--contrast: tomato;
       all: unset;
       width: 100%;
       margin-right: 0.5rem;
+    }
+
+    //
+    &__dropdown {
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      position: absolute;
+      top: 3rem;
+      left: 0;
+      border: 3px solid $color--font;
+      border-radius: 0.5rem;
+      width: 100%;
+      min-height: 5rem;
+      max-height: 50vh;
+      overflow: auto;
+      background: $color--background;
+      box-shadow: 0 0 1rem 4px black;
+
+      a {
+        &:hover {
+          background-color: #FFF8DC;
+        }
+
+        article {
+          padding: 0.5rem;
+          width: 100%;
+          display: flex;
+          margin: 0;
+          gap: 1rem;
+        }   
+
+        img {
+          height: 4rem;
+          border-radius: 0.25rem;
+        }
+
+        & > div {
+          width: 100%;
+        }
+
+        h3 {
+          font-size: 1rem;
+          margin: 0;
+        }
+
+        p {
+          font-size: 0.7rem;
+          margin: 0;
+        }
+      }
     }
   }
   

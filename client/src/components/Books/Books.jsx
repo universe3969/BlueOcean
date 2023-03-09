@@ -2,32 +2,41 @@ import React, { useState, useEffect } from 'react';
 import { Routes, Route, Link, NavLink } from 'react-router-dom';
 import BookCard from './BookCard.jsx';
 import BookDetail from './BookDetail.jsx';
-import BookQuote from './BookQuote.jsx';
 import BookSearchBar from './BookSearchBar.jsx';
 import './Books.scss';
 
 // Considering when user searching for a book, but that book does not exist
 // So user should be able to add a book if not exist, however he need to be login
 export default function Books() {
+  const [currentTab, setCurrentTab] = useState('Hottest');
   const [allBooks, setAllBooks] = useState([]);
 
   useEffect(() => {
     // didn't handle error right now, refactor later
-    async function updateBooks() {
-      const res = await fetch(`http://localhost:3000/api/books`);
+    async function updateBooksByTab(tabTitle) {
+      let url = 'http://localhost:3000/api/books';
+
+      if (tabTitle === 'Saved') {
+        url += '/user/2'; //this is hard-coded, subject to change later
+      } else {
+        url += `?sort=${tabTitle === 'Hottest' ? 'reviews' : 'date'}`;
+      }
+
+      const res = await fetch(url);
       const json = await res.json();
-      setAllBooks([...allBooks, ...json]);
+      setAllBooks(json);
     }
 
-    updateBooks();
-  }, []);
+    updateBooksByTab(currentTab);
+  }, [currentTab]);
 
   const bookList = allBooks.map(bookInfo => (<BookCard { ...bookInfo } />));
   const bookTabs = ['Hottest', 'Lattest', 'Saved'].map(tabTitle => {
     const props = {
       to: `/books/${tabTitle.toLowerCase()}`,
       className: ({ isActive }) => isActive ? 'app__books__nav--active' : null,
-      key: tabTitle
+      key: tabTitle,
+      onClick: () => setCurrentTab(tabTitle)
     };
 
     return <li><NavLink { ...props }>{ tabTitle }</NavLink></li>;
@@ -53,7 +62,7 @@ export default function Books() {
       <section className='app__books__sub'>
         <Routes>
           <Route path='id/:id' element={ <BookDetail /> } />
-          <Route path=':tag' element={ <BookQuote />} />
+          <Route path=':tag' element={ <BookDetail bookId={ allBooks[0]?.id } />} />
         </Routes>
       </section>
     </main>
