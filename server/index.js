@@ -7,6 +7,9 @@ const axios = require('axios');
 const app = express();
 const client = require("./database/database");
 const PORT = process.env.PORT || 3000;
+const { HOME_ROUTE } = require('./controllers/Controller/Controller');
+const FRIEND_ROUTES = require('./controllers/FriendControllers/friendController');
+const { privateDecrypt } = require('crypto');
 
 
 
