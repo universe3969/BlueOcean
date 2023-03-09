@@ -1,17 +1,16 @@
 const { pool } = require('../database/database.js');
 
 // There could be many query way
-// 1. Hotest, most reviewed books
+// 1. Hotest, most reviewed books, now only orderd by id, refactor later
 // 2. Latest, most recent books
 // 3. Saved, user saved books
 
-async function queryAllBooks({ sort='date', ascending=false, pageCount=10, page=1 }) {
-  // Now this does not handle hotest, but only latest, refactor later
+async function queryAllBooks({ sort='hottest', pageCount=10, page=1 }) {
   const queryString = `
     SELECT id, title, author, cover_image
     FROM books
-    ORDER BY ${sort === 'date' ? 'publish_date' : 'publish_date'} 
-    ${ascending ? 'ASC' : 'DESC'}
+    ORDER BY ${sort === 'date' ? 'publish_date' : 'id'} 
+    ${sort === 'date' ? 'DESC' : 'ASC'}
     LIMIT $1
     OFFSET $2
   `;
@@ -22,9 +21,22 @@ async function queryAllBooks({ sort='date', ascending=false, pageCount=10, page=
   return res.rows;
 }
 
+// Return all information including genres and genre_id
 async function queryBookById(bookId) {
-  const res = await pool.query('SELECT * FROM books WHERE id = $1', [bookId]);
-  return res.rows;
+  let res = await pool.query('SELECT * FROM books WHERE id = $1', [bookId]);
+
+  if (!res.rows.length) return null;
+
+  const bookInfo = res.rows[0];
+  bookInfo.genres = []; // { genre, genre_id }
+
+  res = await pool.query('SELECT genre_id FROM books_genres WHERE book_id = $1', [bookId]);
+  for (let {genre_id} of res.rows) {
+    const res2 = await pool.query('SELECT genre FROM genres WHERE id = $1', [genre_id]);
+    bookInfo.genres.push({ genre_id, genre: res2.rows[0].genre });
+  }
+
+  return bookInfo;
 }
 
 async function queryBooksByUser(userId) {

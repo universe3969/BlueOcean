@@ -28,5 +28,6 @@ body {
   & > main {
     //border: 5px solid black;
     width: 75%;
+    overflow: auto;
   }
 }

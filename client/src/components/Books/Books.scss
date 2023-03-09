@@ -3,17 +3,34 @@ $color--background: white;
 $color--contrast: tomato;
 
 .app__books {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+
+  a {
+    text-decoration: none;
+    color: $color--font;
+
+    &:hover { 
+      cursor: pointer; 
+    }
+  }
 
   &__main {
-    width: 50%;
-    border: 5px solid black;
-    padding: 1rem;
+    grid-column: 1 / 2;
+    border-right: 1px solid grey;
+    overflow: auto;
   }
 
   &__sub {
-    width: 50%;
-    //border: 5px solid orange;
+    grid-column: 2 / 3;
+    height: min-content;
+    overflow: auto;
+  
+    img {
+      width: 80%;
+    }
+
+    position: sticky;
   }
 
   // Top-level Search Bar
@@ -32,6 +49,185 @@ $color--contrast: tomato;
 
     input {
       all: unset;
+      width: 100%;
+      margin-right: 0.5rem;
+    }
+  }
+  
+  // Top-Level Navigation Bar
+  &__nav {
+    z-index: 10;
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
+    position: sticky;
+    top: 0;
+    padding: 1rem 1rem 0 1rem; 
+    background-color: $color--background;
+    border-bottom: 1px solid grey;
+    
+    &--active {
+      color: $color--contrast !important;
+      font-weight: bold !important;
+      text-decoration: underline $color--contrast 0.25rem !important;
+      text-underline-offset: 0.5rem !important;
+    }
+
+    & > ul {
+      list-style-type: none;
+      padding: 0.5rem 0;
+      margin: 0;
+      display: flex;
+      justify-content: space-between;
+    }
+  }
+  
+  &__card-container {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+// Book Card
+.book__card {
+  display: flex;
+  width: 100%;
+  border-bottom: 1px solid grey;
+  padding: 1rem;
+
+  &:last-child {
+    border: none;
+  }
+
+  &__text {
+    width: 100%;
+    overflow-wrap: break-word;
+    word-break: break-all;
+
+    &__title {
+      margin: 0;
+      hyphens: auto;
+      font-size: 1.2rem;
+    }
+
+    &__author {
+      margin: 0.25rem 0 0 0; 
+      font-style: italic;
+      font-size: 0.8rem;
+    }
+  }
+
+  &__buttons {
+    display: flex;
+    gap: 1rem;
+
+    a:hover {
+      color: $color--contrast;
+      transform: scale(1.1, 1.1);
+      transition: all 0.2s;
+    } 
+  }
+
+  & > section {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 0 1rem;
+  }
+
+  &__cover {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &:hover {
+      transform: scale(1.1, 1.1);
+      transition: all 0.5s;
+    }
+
+    img {
+      width: 6rem;
+      border-radius: 0.5rem;
+    }
+  }
+}
+
+// Book detail page
+.book__detail {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+
+  img {
+    width: 15rem;
+    border-radius: 0 1rem 1rem 0;
+    box-shadow: 0.2rem 0.2rem 8px 2px $color--font;
+  }
+
+  &__title {
+    font-size: 2rem;
+  }
+  
+  &__author {
+    margin: 0 0 1rem 0;
+    font-size: 1.2rem;
+    font-style: italic;
+  }
+
+  &__description {
+    text-align: justify;
+    hyphens: auto;
+    font-size: 0.8rem;
+  }
+
+  &__genres {
+    margin: 1rem 0 2rem 0;
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    gap: 0.25rem;
+
+    & > div {
+      font-size: 0.8rem;
+      font-weight: bold;
+      padding: 0.5rem;
+      border: 1px solid $color--font;
+      border-radius: 1.5rem;
+    }
+  }
+
+  table {
+    width: 100%;
+    margin-bottom: 2rem;
+
+    &, td, tr, th {
+      text-align: left;
+      padding: 0.5rem;
+      border: 2px solid $color--font;
+      border-collapse: collapse;
+    }
+  }
+
+  &__CTA {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    gap: 3rem;
+
+    & > * {
+      font-size: 1rem;
+      font-family: inherit;
+      font-weight: bold;
+      padding: 1rem;
+      border: 3px solid $color--font;
+      border-radius: 2rem;
+      background: $color--background;
+
+      &:hover {
+        cursor: pointer;
+        color: $color--background;
+        background: $color--font;
+      }
     }
   }
 }

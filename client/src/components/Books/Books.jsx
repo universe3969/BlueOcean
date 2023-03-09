@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Routes, Route, Link, NavLink } from 'react-router-dom';
 import BookCard from './BookCard.jsx';
 import BookDetail from './BookDetail.jsx';
-// import BookQuote from './BookQuote.jsx';
+import BookQuote from './BookQuote.jsx';
 import BookSearchBar from './BookSearchBar.jsx';
 import './Books.scss';
 
@@ -14,7 +14,7 @@ export default function Books() {
   useEffect(() => {
     // didn't handle error right now, refactor later
     async function updateBooks() {
-      const res = await fetch('http://localhost:3000/api/books');
+      const res = await fetch(`http://localhost:3000/api/books`);
       const json = await res.json();
       setAllBooks([...allBooks, ...json]);
     }
@@ -22,24 +22,23 @@ export default function Books() {
     updateBooks();
   }, []);
 
-  const bookList = allBooks.map(bookInfo => {
-    return <BookCard { ...bookInfo } />;
-  });
+  const bookList = allBooks.map(bookInfo => (<BookCard { ...bookInfo } />));
+  const bookTabs = ['Hottest', 'Lattest', 'Saved'].map(tabTitle => {
+    const props = {
+      to: `/books/${tabTitle.toLowerCase()}`,
+      className: ({ isActive }) => isActive ? 'app__books__nav--active' : null,
+      key: tabTitle
+    };
 
-  const bookNav = (
-    <ul>
-      <li><Link to='/books/hottest'>Hottest</Link></li>
-      <li><Link to='/books/lattest'>Lattest</Link></li>
-      <li><Link to='/books/saved'>Saved</Link></li>
-    </ul>
-  );
+    return <li><NavLink { ...props }>{ tabTitle }</NavLink></li>;
+  });
 
   return (
     <main className='app__books'>
       <section className='app__books__main'>
         <nav className='app__books__nav'>
           <BookSearchBar />
-          { bookNav }
+          <ul>{ bookTabs }</ul>
         </nav>
         <div className='app__books__card-container'>
           { bookList }
@@ -54,7 +53,7 @@ export default function Books() {
       <section className='app__books__sub'>
         <Routes>
           <Route path='id/:id' element={ <BookDetail /> } />
-          <Route path=':tag' element={ <div>Fuck Shit</div> } />
+          <Route path=':tag' element={ <BookQuote />} />
         </Routes>
       </section>
     </main>
