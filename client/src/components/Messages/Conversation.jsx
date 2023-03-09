@@ -35,8 +35,8 @@ const Conversation = ({ selectedConversation, friendUsername, friendId, userId, 
     <div className="conversation-page">
       <h2>{friendUsername}</h2>
       <div className="message-history">
-        {selectedConversation.map((message) => (
-          <div className={`${message.fromId === friendId ? "friend-message" : "user-message"}`}>
+        {selectedConversation.map((message, index) => (
+          <div key={index} className={`${message.fromId === friendId ? "friend-message" : "user-message"}`}>
             <div className={`message-sender ${message.fromId === friendId ? "friend-sender" : "user-sender"}`}>
               <img src={message.fromId === friendId ? friendAvatarUrl : userAvatarUrl} className="sender-avatar" />
             </div>

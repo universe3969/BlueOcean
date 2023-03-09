@@ -3,6 +3,7 @@ const router = express.Router()
 const {pool} = require('./database/database.js')
 
 router.get('/:userId/messages', async (req, res) => {
+  console.log("get messages router get hit!")
   const {userId} = req.params;
   try {
     const result = await pool.query(
@@ -51,8 +52,9 @@ router.get('/:userId/messages', async (req, res) => {
 });
 
 router.get('/:userId/:friendId', async (req, res) => {
+  console.log("get user avator info router get hit ")
   const {userId, friendId} = req.params;
-  console.log(`trying to get messages history between ${userId} and ${friendId}`)
+  // console.log(`trying to get messages history between ${userId} and ${friendId}`)
 
   const messageHistory = await pool.query(
     `SELECT m.body, m.from_id, m.to_id, m.date, m.body, u1.avator as sender_avatar_url, u2.avator as receiver_avatar_url, u2.username as friend_username, u3.id as user_id, u2.id as friend_id, u2.avator as friend_avatar_url, u1.avator as user_avatar_url
@@ -68,7 +70,7 @@ router.get('/:userId/:friendId', async (req, res) => {
 })
 
 router.post('/messages', async (req, res) => {
-  console.log("posing a message? ", req.body)
+  console.log("posing message router get hit? ", req.body)
   try {
     const { fromId, toId, body } = req.body;
     const result = await pool.query(
@@ -78,7 +80,7 @@ router.post('/messages', async (req, res) => {
     const message = result.rows[0];
     res.json(message);
   } catch (error) {
-    console.error('Failed to send message.', error);
+    // console.error('Failed to send message.', error);
     res.status(500).send('Internal server error');
   }
 });
