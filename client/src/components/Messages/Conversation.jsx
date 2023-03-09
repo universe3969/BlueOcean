@@ -40,7 +40,8 @@ const Conversation = ({ selectedConversation, friendUsername, friendId, userId, 
 
   return (
     <div className="conversation-page">
-      <h2>{friendUsername}</h2>
+      <h2 className="friend-name">{friendUsername}</h2>
+      <div className="bottomline"></div>
       <div className="message-history">
         {selectedConversation.map((message, index) => (
           <div key={index} className={`${message.fromId === friendId ? "friend-message" : "user-message"}`}>

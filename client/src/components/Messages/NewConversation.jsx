@@ -62,11 +62,11 @@ const NewConversation = ({ userId, onClose, updateConversationList,onConversatio
 
   return (
     <div className="new-conversation-container">
-      <h2>Start a new conversation</h2>
+      <h2 className="new-conversation-header">Start a new conversation With Your Friends</h2>
       <form onSubmit={handleSubmit}>
-        <label>
+        <label className="new-conversation-label">
           Select a friend:
-          <select value={selectedFriendId} onChange={handleFriendSelect}>
+          <select className="new-conversation-select" value={selectedFriendId} onChange={handleFriendSelect}>
             <option value="">-- Please select --</option>
             {friends.map((friend) => (
               <option key={friend.id} value={friend.id}>
@@ -75,14 +75,13 @@ const NewConversation = ({ userId, onClose, updateConversationList,onConversatio
             ))}
           </select>
         </label>
-        <label>
+        <label className="new-conversation-label">
           Message:
-          <textarea value={messageBody} onChange={handleMessageChange}></textarea>
+          <textarea className="new-conversation-textarea" value={messageBody} onChange={handleMessageChange}></textarea>
         </label>
-        <button type="submit">Send</button>
-        <button type="button" onClick={onClose}>
-          Cancel
-        </button>
+        <div className="new-conversation-buttons">
+          <button className="new-conversation-button new-conversation-send" type="submit">Send</button>
+        </div>
       </form>
     </div>
   );
