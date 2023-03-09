@@ -1,7 +1,7 @@
 .post {
-  border-bottom: 1px solid grey;
-  padding: 15px;
-  width: 400px;
+  border-bottom: 3px solid black;
+  padding: 15px 15px 15px 25px;
+  width: 100%;
 }
 
 .post-book-cover {
@@ -10,6 +10,7 @@
 }
 
 .post-blurb {
+  padding: 10px;
   width: 75%;
 }
 
@@ -20,5 +21,12 @@
 }
 
 .profile-picture-section {
-  width: 25%;
+  border-bottom: 1px solid gray;
+  display: flex;
+  margin-bottom: 20px;
+  padding: 10px;
+}
+
+.userId {
+  margin-left: 15px;
 }

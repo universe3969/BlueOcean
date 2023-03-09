@@ -10,7 +10,7 @@ const books = `CREATE TABLE books (
   availability BOOLEAN DEFAULT FALSE
 )`;
 
-const genres = `CREATE TABLE genres ( 
+const genres = `CREATE TABLE genres (
   id SERIAL PRIMARY KEY,
   genre VARCHAR(255) UNIQUE NOT NULL
 )`;
@@ -27,8 +27,8 @@ const users = `CREATE TABLE users (
   username VARCHAR(255) UNIQUE NOT NULL,
   password VARCHAR(255) NOT NULL,
   email VARCHAR(255) UNIQUE NOT NULL,
-  avator VARCHAR(255),  
-  bio JSON
+  avator VARCHAR(255),
+  bio VARCHAR(255)
 )`;
 
 const users_books = `CREATE TABLE users_books (
@@ -72,7 +72,7 @@ const posts = `CREATE TABLE posts (
 
 const messages = `CREATE TABLE messages (
   id SERIAL PRIMARY KEY,
-  body TEXT NOT NULL, 
+  body TEXT NOT NULL,
   from_id INT NOT NULL REFERENCES users,
   to_id INT NOT NULL REFERENCES users,
   date DATE DEFAULT NOW()

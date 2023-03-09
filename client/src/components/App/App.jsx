@@ -3,7 +3,6 @@ import { Routes, Route } from 'react-router-dom';
 import Navbar from '../Navbar/Navbar.jsx';
 import SignUp from '../SignUp/SignUp.jsx';
 import Books from '../Books/Books.jsx';
-import Feed from '../Feed/Feed.jsx';
 import Friends from '../Friends/Friends.jsx';
 import Profile from '../Profile/Profile.jsx';
 import Posts from '../Posts/Posts.jsx';
@@ -45,16 +44,7 @@ export default function App() {
           <Route path='books' element={<Books />} />
           <Route path='home' element={<Home />} />
           <Route path='friends' element={<Friends />} />
-          <Route path='posts' element={<Posts
-            posts={[{
-              id: 1,
-              bookId: 1,
-              userId: 'user1',
-              body: 'this is a review about a book',
-              isPublic: true,
-              isReview: true,
-            }]}
-          />} />
+          <Route path='posts' element={<Posts/>} />
           <Route path='messages' element={<Messages />} />
           <Route path='profile/:id' element={<Profile />} />
           <Route path='explore' element={<Tinder />} />

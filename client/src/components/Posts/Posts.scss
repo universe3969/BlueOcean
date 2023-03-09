@@ -1,6 +1,8 @@
 .feed-container {
-  border: 5px solid brown;
+  border: 5px solid black;
   display: flex;
   flex-direction: column;
+  overflow-y: scroll;
+  max-height: 100%;
   width: 100%;
 }

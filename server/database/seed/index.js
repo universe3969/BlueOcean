@@ -1,6 +1,8 @@
 const { client } = require('../database.js');
 const books = require('./data/books.json');
 const genres = require('./data/genres.json');
+const posts = require('./data/posts.json');
+const users = require('./data/users.json');
 
 // First inser into genres, then books, finally books_genres
 async function seed() {
@@ -49,6 +51,24 @@ async function seed() {
         values: [genreId, bookId]
       });
     }
+  }
+
+  // Insert into users, for testing posts data
+  for (let i = 0; i < users.length; i++) {
+    const { username, password, email, bio } = users[i];
+    await client.query({
+      text: 'INSERT INTO users(username, password, email, bio) VALUES($1, $2, $3, $4)',
+      values: [username, password, email, bio]
+    });
+  }
+
+  // Insert into posts
+  for (let i = 0; i < posts.length; i++) {
+    const { body, user_id, book_id, type } = posts[i];
+    await client.query({
+      text: 'INSERT INTO posts(body, user_id, book_id, type) VALUES($1, $2, $3, $4)',
+      values: [body, user_id, book_id, type]
+    });
   }
 
   const end = new Date();

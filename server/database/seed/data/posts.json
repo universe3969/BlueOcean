@@ -1,0 +1,26 @@
+[
+  {
+    "body": "Wow. This book changed my life. 9/10",
+    "user_id": "1",
+    "book_id": "4",
+    "type": "review"
+  },
+  {
+    "body": "This book was okay. 5/10",
+    "user_id": "2",
+    "book_id": "2",
+    "type": "review"
+  },
+  {
+    "body": "I cannot wait to bake a cake this weekend",
+    "user_id": "1",
+    "book_id": null,
+    "type": "post"
+  },
+  {
+    "body": "I love coding",
+    "user_id": "2",
+    "book_id": null,
+    "type": "post"
+  }
+]

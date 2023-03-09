@@ -1,0 +1,23 @@
+[
+  {
+    "username": "bob",
+    "password": "bobpass",
+    "email": "bob@gmail.com",
+    "avator": "https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=200",
+    "bio": "I am Bob"
+  },
+  {
+    "username": "joe",
+    "password": "joepass",
+    "email": "joe@gmail.com",
+    "avator": "https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=200",
+    "bio": "I am Joe"
+  },
+  {
+    "username": "dave",
+    "password": "davepass",
+    "email": "dave@gmail.com",
+    "avator": "https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=200",
+    "bio": "I am Dave"
+  }
+]
