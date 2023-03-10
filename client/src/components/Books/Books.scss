@@ -1,6 +1,6 @@
 $color--font: black;
 $color--background: white;
-$color--contrast: tomato;
+$color--contrast: rgb(71, 197, 255);
 
 .app__books {
   display: grid;
@@ -129,7 +129,7 @@ $color--contrast: tomato;
       padding: 0.5rem 0;
       margin: 0;
       display: flex;
-      justify-content: space-between;
+      justify-content: space-around;
     }
   }
   

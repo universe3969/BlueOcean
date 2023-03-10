@@ -1,26 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { useUserStore } from '../Store/store.js';
+
+const userId = 10;
 
 export default function BookDetail({ bookId }) {
   const id = bookId || useParams().id;
   const [bookInfo, setBookInfo] = useState(null);
-  const { curId } = useUserStore();
+  const navigate = useNavigate();
 
   async function updateBookInfo() {
-    const res = await fetch(`http://localhost:3000/api/books/id/${id}/user/${curId || -1}`);
+    const res = await fetch(`http://localhost:3000/api/books/id/${id}/user/${userId}`);
     const json = await res.json();
 
     setBookInfo(json);
   }
 
   async function toggleBookLike() {
-    if (!curId) {
-      alert('Please login or singup to use this feature!');
-      return;
-    }
-
-    const url = `http://localhost:3000/api/books/like?bookId=${id}&userId=${curId}`;
+    const url = `http://localhost:3000/api/books/like?bookId=${id}&userId=${userId}`;
     const res = await fetch(url, { method: 'PUT' });
 
     if (res.ok) updateBookInfo();// subject to refactor...
@@ -32,11 +28,11 @@ export default function BookDetail({ bookId }) {
   }, [id]);
 
   if (!bookInfo) {
-    return <p></p>;    
+    return <p>Not Ready Yet</p>;    
   }
 
   const { 
-    cover_image, title, author, description, genres = [],
+    cover_image, title, author, description, genres,
     publish_date, price, availablity, page_count, liked
   } = bookInfo;
 
