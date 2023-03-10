@@ -19,7 +19,7 @@ root.render(
           domain= {process.env.domain}
           clientId={process.env.clientId}
             authorizationParams={{
-              redirect_uri: 'http://localhost:8080/home',
+              redirect_uri: 'http://localhost:8080/books',
               audience: process.env.audience,
               scope: process.env.scope
             }}
