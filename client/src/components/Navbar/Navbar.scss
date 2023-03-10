@@ -16,7 +16,8 @@ $color--background: white;
   a { 
     all: unset;
 
-    &:hover { 
+    &:hover {
+      color: red;
       cursor: pointer; 
     }
   }

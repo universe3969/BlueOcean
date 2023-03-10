@@ -43,7 +43,7 @@ export default function Navbar() {
           <Link to='/posts'>{ Icons.Add() } Make a Post</Link>
         </section>
         <section>
-          {curId && <Link to='/edit'>{ Icons.Settings({ title: 'Settings' }) }</Link>}
+          { curId && <Link to='/edit'>{ Icons.Settings({ title: 'Settings' }) }</Link>}
           { Icons.LightMode({ title: 'LightMode' }) }
           { Icons.More({ title: 'More' }) }
           <LogSwitch/>

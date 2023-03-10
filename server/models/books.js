@@ -37,6 +37,10 @@ async function queryBookById({ bookId, userId }) {
     bookInfo.genres.push({ genre_id, genre: res2.rows[0].genre });
   }
 
+  if (userId === -1) {
+    return bookInfo;
+  }
+
   res = await pool.query({
     text: 'SELECT * FROM users_books WHERE user_id = $1 AND book_id = $2',
     values: [userId, bookId]
