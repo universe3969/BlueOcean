@@ -8,7 +8,7 @@ const app = express();
 const {clients} = require("./database/database");
 const PORT = process.env.PORT || 3000;
 const profileRouter = require('./controllers/profile.js');
-const friendsRouter = require('./controllers/friends.js');
+
 
 app.use(cors())
 app.use(express.json());
@@ -28,8 +28,11 @@ app.get('/regular', function(req, res) {
   });
 });
 
+const tinder = require('./controllers/TinderController.js');
+app.use('/explore', tinder);
+
 app.use('/api/profile', profileRouter);
-app.use('/api/friends', friendsRouter);
+
 // We can use this to have all routes below this to be protected routes
 // app.use(checkJwt);
 
@@ -41,6 +44,7 @@ app.get('/private', function(req, res) {
     message: 'Hello from a private endpoint! You need to be authenticated to see this.'
   });
 });
+
 
 // client.connect().then(() => {
 //   console.log("database connected");
