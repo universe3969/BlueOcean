@@ -1,0 +1,33 @@
+.post {
+  border-bottom: 3px solid black;
+  padding: 15px 15px 15px 25px;
+  width: 100%;
+}
+
+.post-book-cover {
+  height: 100px;
+  margin-right: 15px;
+  width: 70px;
+}
+
+.post-blurb {
+  display: flex;
+  padding: 10px;
+}
+
+.profile-picture {
+  border-radius: 50px;
+  height: 50px;
+  width: 50px;
+}
+
+.profile-picture-section {
+  border-bottom: 1px solid gray;
+  display: flex;
+  margin-bottom: 20px;
+  padding: 10px;
+}
+
+.userId {
+  margin-left: 15px;
+}
