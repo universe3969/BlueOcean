@@ -5,9 +5,9 @@ const path = require("path");
 require("dotenv").config(path.join(__dirname, "./.env"));
 const axios = require('axios');
 const app = express();
-const client = require("./database/database");
+const client = require("./database/database").client;
 const PORT = process.env.PORT || 3000;
-
+const userRouter = require('./routes/users.js');
 
 
 app.use(cors())
@@ -36,6 +36,8 @@ app.use('/explore', tinder);
 app.use(checkJwt);
 
 // This route needs authentication because it uses checkJWT as a second argument
+app.use('/users', userRouter);
+
 app.get('/private', function(req, res) {
   // how to grab user information if needed
   //console.log(req.query)
@@ -51,6 +53,10 @@ app.get('/private', function(req, res) {
 //   console.log("database connected");
 //   app.listen(PORT, () => console.log(`App listening on PORT ${PORT}`));
 // });
+client.connect().then(() => {
+  console.log("database connected");
+  app.listen(PORT, () => console.log(`App listening on PORT ${PORT}`));
+});
 
 // I haven't gotten the DB running on my end yet so I abstracted the server.
-app.listen(PORT, () => console.log(`App listening on PORT ${PORT}`))
+// app.listen(PORT, () => console.log(`App listening on PORT ${PORT}`))
