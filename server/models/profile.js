@@ -26,7 +26,7 @@ async function getUserInfo(userId) {
 }
 async function getUserPosts(userId) {
   const query = `
-    SELECT * FROM posts WHERE user_id = ${userId} AND type = 'post';
+    SELECT * FROM posts WHERE user_id = ${userId} AND type IN ('post', 'review', 'note') ;
   `;
   try {
     const result = await pool.query(query);

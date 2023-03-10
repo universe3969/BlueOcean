@@ -3,30 +3,38 @@ import {useParams} from 'react-router-dom';
 import './Profile.scss';
 import axios from 'axios';
 import moment from 'moment';
-
+import { useUserStore } from "../Store/store.js";
 // Don't change this <main> wrapper, this tag is used in App.scss
 export default function Profile () {
-  // const {id} = useParams();
+  const {id} = useParams();
   const [userData, setUserData] = useState();
   const [posts, setPosts] = useState();
+  const curId = useUserStore((state) => state.curId);
+  // if (!curId) return (
+  //   <div>Loading</div>
+  // )
+
+
 
   useEffect(() => {
-    axios.get(`http://localhost:3000/api/profile/bio/${2}`)
-      .then(res => {
-        setUserData(res.data);
-      })
-      .catch((err) => {
-        console.log(err)
-      });
+    if (curId) {
+      axios.get(`http://localhost:3000/api/profile/bio/${curId}`)
+        .then(res => {
+          setUserData(res.data);
+        })
+        .catch((err) => {
+          console.log(err)
+        });
 
-    axios.get(`http://localhost:3000/api/profile/posts/${5}`)
-      .then(res => {
-        setPosts(res.data);
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  }, []);
+      axios.get(`http://localhost:3000/api/profile/posts/${curId}`)
+        .then(res => {
+          setPosts(res.data);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
+  }, [curId]);
 
 
   let allBooks = userData ? userData.userBooks : [{cover_image: 'https://images.unsplash.com/photo-1599508704512-2f19efd1e35f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=735&q=80'}, {cover_image: 'https://plus.unsplash.com/premium_photo-1668790939920-f5f0a5c34b21?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=711&q=80'}, {cover_image: 'https://images.unsplash.com/photo-1601027847350-0285867c31f7?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80'}];
@@ -78,26 +86,26 @@ export default function Profile () {
           <div className="profile-page-name">{userData.user.bio.name}</div>
           <div className="profile-page-username">@{userData.user.username}</div>
           <img src={userData.user.avator} alt="Profile" className="profile-page-avatar" />
-          <div>Age: {userData.user.bio.age}</div>
-          <div>Gender: {userData.user.bio.gender}</div>
+          <div className="age">Age: {userData.user.bio.age}</div>
+          <div className="gender">Gender: {userData.user.bio.gender}</div>
           <div>
-            <h3>What books does this person like to read ?</h3>
+            <div className="profile-title">Saved Books</div>
             <div className="profile-page-books-container">
               {shuffledBooks.slice(0,3).map((book, index) => (
                 <img src={book.cover_image} alt="Book" key={index} className="profile-page-books"/>
               ))}
             </div>
-            <button onClick={showBooks}>See Some Books</button>
+            <button className="profile-seemore" onClick={showBooks}>See Some Books</button>
           </div>
 
           <div>
-            <h3>What book genres does this person like to read ?</h3>
+            <div className="profile-title">Liked Genres</div>
             <div className="profile-page-genres-container">
               {shuffledGenres.slice(0,3).map((genre, index) => (
-                    <p key={index}>{genre.genre}</p>
+                    <p className="profile-liked-genres" key={index}>{genre.genre}</p>
               ))}
             </div>
-            <button onClick={showGenres}>See Some Genres</button>
+            <button className="profile-seemore" onClick={showGenres}>See Some Genres</button>
           </div>
 
           <div className="profile-page-interests-container">
@@ -110,7 +118,6 @@ export default function Profile () {
                 <p key={index}>{interest}</p>
               )) : null} */}
           </div>
-          <button>Edit</button>
         </div>
 
 
