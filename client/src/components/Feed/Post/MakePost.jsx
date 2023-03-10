@@ -49,7 +49,7 @@ function PostForm() {
   return (
     <div className="makePost">
       <label>
-        <input type="text" className="post-body-form" value={body} onChange={handleBodyChange} placeholder="What's on your mind?" />
+        <textarea className="post-body-form" value={body} onChange={handleBodyChange} placeholder="What's on your mind?" />
       </label>
       <label>
         <input type="text" value={book_id} onChange={handleBookIdChange} placeholder="What book is this about?" />
