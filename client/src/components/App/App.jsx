@@ -32,7 +32,7 @@ export default function App() {
           <Route path='friends' element={ <Friends /> } />
           <Route path='posts' element={ <Posts />} />
           <Route path='messages' element={ <Messages /> } />
-          <Route path='profile/:id' element={ <Profile /> } />
+          <Route path='profile' element={ <Profile /> } />
           <Route path='explore' element={ <Tinder /> } />
           <Route path='*' element={ <ErrorPage /> } />
         </Route>
