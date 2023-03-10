@@ -1,24 +1,27 @@
 const express = require('express');
 const cors = require('cors');
-const { auth, requiredScopes } = require('express-oauth2-jwt-bearer');
+// const { auth, requiredScopes } = require('express-oauth2-jwt-bearer');
 const path = require("path");
-require("dotenv").config(path.join(__dirname, "./.env"));
+// require("dotenv").config(path.join(__dirname, "./.env"));
 const axios = require('axios');
 const app = express();
-const client = require("./database/database").client;
+
+const messageRouter = require('./routers/MessageRoutes.js');
+const {clients} = require("./database/database").client;
 const PORT = process.env.PORT || 3000;
-const userRouter = require('./routes/users.js');
+const userRouter = require('./routes/users.js');const profileRouter = require('./controllers/profile.js');
 
 
 app.use(cors())
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use('/api/messages', messageRouter);
 
 //jsonwebtoken checker from Auth0
-const checkJwt = auth({
-  audience: process.env.audience,
-  issuerBaseURL: process.env.issuerBaseURL,
-});
+// const checkJwt = auth({
+//   audience: process.env.audience,
+//   issuerBaseURL: process.env.issuerBaseURL,
+// });
 
 // routes
 // This route doesn't need authentication
@@ -31,9 +34,10 @@ app.get('/regular', function(req, res) {
 const tinder = require('./controllers/TinderController.js');
 app.use('/explore', tinder);
 
+app.use('/api/profile', profileRouter);
 
 // We can use this to have all routes below this to be protected routes
-app.use(checkJwt);
+// app.use(checkJwt);
 
 // This route needs authentication because it uses checkJWT as a second argument
 app.use('/users', userRouter);
@@ -46,7 +50,10 @@ app.get('/private', function(req, res) {
   });
 });
 
-
+// ----------------- All Routers Below -------------------------
+// Books
+const books = require('./routers/books.js');
+app.use('/api/books', books);
 
 
 // client.connect().then(() => {
@@ -58,5 +65,6 @@ client.connect().then(() => {
   app.listen(PORT, () => console.log(`App listening on PORT ${PORT}`));
 });
 
+
 // I haven't gotten the DB running on my end yet so I abstracted the server.
-// app.listen(PORT, () => console.log(`App listening on PORT ${PORT}`))
+// app.listen(PORT, () => console.log(`App listening on PORT ${PORT}`));
