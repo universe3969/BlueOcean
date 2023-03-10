@@ -55,6 +55,11 @@ const checkJwt = auth({
 // This route needs authentication because it uses checkJWT as a second argument
 app.use('/users', checkJwt, userRouter);
 
+const CreatePostController = require('./controllers/CreatePostController.js');
+const PostsController = require('./controllers/PostsController.js');
+app.use('/posts', checkJwt, PostsController);
+app.use('/createpost', checkJwt, CreatePostController);
+
 client.connect().then(() => {
   console.log("database connected");
   app.listen(PORT, () => console.log(`App listening on PORT ${PORT}`));

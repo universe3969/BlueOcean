@@ -10,15 +10,14 @@ async function buildTables() {
   for (let schemaName in schema) {
     // Differentiate between type and table
     const isType = ['friendships_status', 'posts_type'].includes(schemaName);
-    
+
     // Reset type or table, will delete all existing data
     await client.query(`DROP ${isType ? 'TYPE' : 'TABLE'} IF EXISTS ${schemaName} CASCADE`);
     await client.query(schema[schemaName]);
   }
-
   await client.end();
 }
 
-buildTables()
-  .then(() => console.log('All tables are created or re-created...'))
-  .catch(console.log);
+// buildTables()
+//   .then(() => console.log('All tables are created or re-created...'))
+//   .catch(console.log);
