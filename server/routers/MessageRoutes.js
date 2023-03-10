@@ -67,7 +67,7 @@ router.get('/:userId/messages', async (req, res) => {
 });
 
 router.get('/:userId/:friendId', async (req, res) => {
-  console.log("get usr/friend id route get hit ", req.params)
+  // console.log("get usr/friend id route get hit ", req.params)
   const { userId, friendId } = req.params;
   const userAvator = await pool.query(
     `SELECT id, username, avator

@@ -1,103 +1,127 @@
 import React, { useState, useEffect } from 'react';
+import {useParams} from 'react-router-dom';
 import './Profile.scss';
-
+import axios from 'axios';
+import moment from 'moment';
 
 // Don't change this <main> wrapper, this tag is used in App.scss
 export default function Profile () {
-  const data = {
-    name: 'bunny',
-    profile_pic: 'https://partyanimals.com/static/avatars-12.png',
-    age: 24,
-    gender:'male',
-    likedBooks: ['https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1586722975i/2767052.jpg', "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1522157426i/19063.jpg","https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1579036753i/77203.jpg", "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1170803558l/72193.jpg", "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1667708346i/43641.jpg", "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1553383690i/2657.jpg", "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1622355533i/4667024.jpg", "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1327868566i/2429135.jpg"],
-    interests: ['enjoy playing video games', 'enjoy doing exercise'],
-    friend_status: 'pending'
-  }
-  const posts = [
-    {
-      content: 'Today is a good day',
-      createdAt: '2022-02-02 19:12:21'
-    },
-    {
-      content: 'I love reading Books',
-      createdAt: '2013-03-03 3:03:33'
-    },
-    {
-      content: 'Just finished Hunger Games',
-      createdAt: '2011-1-1 11:11:11'
-    },
-    {
+  // const {id} = useParams();
+  const [userData, setUserData] = useState();
+  const [posts, setPosts] = useState();
 
-      content: 'Spent the day hiking and it was amazing!',
-      createdAt: '2023-03-08 12:30:00'
-    },
-    {
-      content: 'Finally finished my painting!',
-      createdAt: '2023-03-06 16:45:00'
-    },
-    {
-      content: 'I tried a new recipe and it turned out great!',
-      createdAt: '2023-03-04 20:15:00'
-    },
-    {
-      content: 'I watched a great movie last night',
-      createdAt: '2023-03-03 22:00:00'
-    },
-    {
-      content: 'I just got back from a trip to Hawaii!',
-      createdAt: '2023-03-01 11:00:00'
-    },
-    {
-      content: 'I started learning a new language today',
-      createdAt: '2023-02-28 9:00:00'
+  useEffect(() => {
+    axios.get(`http://localhost:3000/api/profile/bio/${2}`)
+      .then(res => {
+        setUserData(res.data);
+      })
+      .catch((err) => {
+        console.log(err)
+      });
+
+    axios.get(`http://localhost:3000/api/profile/posts/${5}`)
+      .then(res => {
+        setPosts(res.data);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }, []);
+
+
+  let allBooks = userData ? userData.userBooks : [{cover_image: 'https://images.unsplash.com/photo-1599508704512-2f19efd1e35f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=735&q=80'}, {cover_image: 'https://plus.unsplash.com/premium_photo-1668790939920-f5f0a5c34b21?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=711&q=80'}, {cover_image: 'https://images.unsplash.com/photo-1601027847350-0285867c31f7?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80'}];
+
+  let allGenres = userData ? userData.userGenres : [{genre: '?'}, {genre: '?'}, {genre: '?'}];
+
+  const [shuffledBooks, setShuffledBooks] = useState(allBooks);
+  const [shuffledGenres, setShuffledGenres] = useState(allGenres);
+
+  const shuffleArray = function (array) {
+    const shuffled = [...array];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
     }
-  ];
+    return shuffled;
+  };
 
-  const { name, profile_pic, age, gender, likedBooks, interests, friend_status } = data;
+  const showBooks = () => {
+    const shuffled = shuffleArray(allBooks);
+    setShuffledBooks(shuffled.slice(0, 3));
+  };
 
-  return (
-    <main className="profile-page-container">
+  const showGenres = () => {
+    const shuffled = shuffleArray(allGenres);
+    setShuffledGenres(shuffled.slice(0, 3));
+  }
 
 
-      <div className="profile-post-container">
-        {posts.map((post, index) => (
-          <div className="profile-post" key={index}>
-            <div>{post.user}</div>
-            <p>{post.content}</p>
-            <p>Created At: {post.createdAt}</p>
-            <div className="post-buttons">
-              <button className="edit-button">Edit</button>
-              <button className="delete-button">Delete</button>
+
+  if (userData && posts) {
+    return (
+      <main className="profile-page-container">
+
+
+        <div className="profile-post-container">
+          {posts ? posts.map((post, index) => (
+            <div className="profile-post" key={index}>
+              <div>{post.user}</div>
+              <p>{post.body}</p>
+              <p>Created {moment(post.last_created).fromNow()}</p>
+              <p>Last updated {moment(post.last_updated).fromNow()}</p>
             </div>
-          </div>
-        ))}
-      </div>
-
-
-      <div className="profile-bio-container">
-        <div className="profile-page-username">{name}</div>
-        <img src={profile_pic} alt="Profile" className="profile-page-avatar" />
-        <div>Age: {age}</div>
-        <div>Gender: {gender}</div>
-        <div>
-          <h3>Liked Books</h3>
-          <div className="profile-page-books-container">
-            {likedBooks.map((book, index) => (
-              <img src={book} alt="Book" key={index} className="profile-page-books"/>
-            ))}
-          </div>
+          )) : null}
         </div>
-        <div className="profile-page-interests-container">
-          <div>Interests:</div>
-          <div className=""></div>
-            {interests.map((interest, index) => (
-              <p key={index}>{interest}</p>
-            ))}
-        </div>
-        <button>Add Friend</button>
-        <button>Edit profile</button>
-      </div>
 
-    </main>
-  );
+
+        <div className="profile-bio-container">
+          <div className="profile-page-name">{userData.user.bio.name}</div>
+          <div className="profile-page-username">@{userData.user.username}</div>
+          <img src={userData.user.avator} alt="Profile" className="profile-page-avatar" />
+          <div>Age: {userData.user.bio.age}</div>
+          <div>Gender: {userData.user.bio.gender}</div>
+          <div>
+            <h3>What books does this person like to read ?</h3>
+            <div className="profile-page-books-container">
+              {shuffledBooks.slice(0,3).map((book, index) => (
+                <img src={book.cover_image} alt="Book" key={index} className="profile-page-books"/>
+              ))}
+            </div>
+            <button onClick={showBooks}>See Some Books</button>
+          </div>
+
+          <div>
+            <h3>What book genres does this person like to read ?</h3>
+            <div className="profile-page-genres-container">
+              {shuffledGenres.slice(0,3).map((genre, index) => (
+                    <p key={index}>{genre.genre}</p>
+              ))}
+            </div>
+            <button onClick={showGenres}>See Some Genres</button>
+          </div>
+
+          <div className="profile-page-interests-container">
+            <div>Interests: </div>
+            <div className="profile-page-interests">
+              <div className="profile-page-interest">{userData.user.bio.interest}</div>
+            </div>
+
+              {/* {interests ? interests.map((interest, index) => (
+                <p key={index}>{interest}</p>
+              )) : null} */}
+          </div>
+          <button>Edit</button>
+        </div>
+
+
+      </main>
+    );
+  } else {
+    return (
+      <div>
+        Please come back later!
+      </div>
+    )
+  }
+
 }
