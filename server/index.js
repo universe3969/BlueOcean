@@ -1,15 +1,13 @@
 const express = require('express');
 const cors = require('cors');
-// const { auth, requiredScopes } = require('express-oauth2-jwt-bearer');
+const { auth, requiredScopes } = require('express-oauth2-jwt-bearer');
 const path = require("path");
-// require("dotenv").config(path.join(__dirname, "./.env"));
 const axios = require('axios');
 const app = express();
-
 const messageRouter = require('./routers/MessageRoutes.js');
-const {clients} = require("./database/database");
+const client = require("./database/database").client;
 const PORT = process.env.PORT || 3000;
-const profileRouter = require('./controllers/profile.js');
+const userRouter = require('./routes/users.js');const profileRouter = require('./controllers/profile.js');
 
 
 app.use(cors())
@@ -17,11 +15,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/api/messages', messageRouter);
 
-//jsonwebtoken checker from Auth0
-// const checkJwt = auth({
-//   audience: process.env.audience,
-//   issuerBaseURL: process.env.issuerBaseURL,
-// });
 
 // routes
 // This route doesn't need authentication
@@ -36,29 +29,35 @@ app.use('/explore', tinder);
 
 app.use('/api/profile', profileRouter);
 
-// We can use this to have all routes below this to be protected routes
-// app.use(checkJwt);
-
-// This route needs authentication because it uses checkJWT as a second argument
-app.get('/private', function(req, res) {
-  // how to grab user information if needed
-  //console.log(req.query)
-  res.json({
-    message: 'Hello from a private endpoint! You need to be authenticated to see this.'
-  });
-});
 
 // ----------------- All Routers Below -------------------------
 // Books
 const books = require('./routers/books.js');
 app.use('/api/books', books);
+app.use('/api/profile', profileRouter);
 
 
-// client.connect().then(() => {
-//   console.log("database connected");
-//   app.listen(PORT, () => console.log(`App listening on PORT ${PORT}`));
-// });
+// ----------------- All Routers Below -------------------------
+// Books
+// const books = require('./routers/books.js');
+// app.use('/api/books', books);
 
+// ----------------- All Protected Routers Below -------------------------
+// We can use this to have all routes below this to be protected routes
+// jsonwebtoken checker from Auth0
+const checkJwt = auth({
+  audience: process.env.audience,
+  issuerBaseURL: process.env.issuerBaseURL,
+});
 
-// I haven't gotten the DB running on my end yet so I abstracted the server.
-app.listen(PORT, () => console.log(`App listening on PORT ${PORT}`));
+// app.use(checkJwt);
+
+// This route needs authentication because it uses checkJWT as a second argument
+app.use('/users', checkJwt, userRouter);
+
+client.connect().then(() => {
+  console.log("database connected");
+  app.listen(PORT, () => console.log(`App listening on PORT ${PORT}`));
+});
+
+// app.listen(PORT, () => console.log(`App listening on PORT ${PORT}`));
