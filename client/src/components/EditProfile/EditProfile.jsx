@@ -122,7 +122,7 @@ export default function EditProfile() {
   }
 
   useEffect(() => {
-    console.log(user)
+    // console.log(user)
     callUserinfo();
     callGenre();
     axios.get('http://localhost:3000/explore/genre-options')
