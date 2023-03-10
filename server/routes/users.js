@@ -6,8 +6,8 @@ const pool = require("../database/database").pool
 
 
 router.get('/info/', async (req, res) => {
-  let email = req.query.id
-  pool.query('SELECT username, id, avator, bio FROM users WHERE email = $1', [email], (error, results) => {
+  let id = req.query.id
+  pool.query('SELECT username, id, avator, bio FROM users WHERE id = $1', [id], (error, results) => {
     if (error) {
       console.error(error);
       return;
@@ -17,10 +17,11 @@ router.get('/info/', async (req, res) => {
 });
 
 router.get('/genre', async (req, res) => {
-try {  const email = req.query.id;
+try {
+  let id = req.query.id
   const query = {
-    text: 'SELECT genre AS value, genre AS label FROM genres WHERE id IN (SELECT genre_id FROM users_genres WHERE user_id = (SELECT id FROM users WHERE email = $1))',
-    values: [email],
+    text: 'SELECT genre AS value, genre AS label FROM genres WHERE id IN (SELECT genre_id FROM users_genres WHERE user_id = $1)',
+    values: [id],
   };
 
   const result = await pool.query(query);
@@ -37,39 +38,57 @@ try {
   const placeholders = values.map((label, index) => `$${index + 2}`).join(', ');
   values.unshift(req.query.id);
   const query1 = `
-  WITH user_id AS (
-    SELECT id
-    FROM users
-    WHERE email = $1
-  ), genre_ids AS (
+  WITH genre_ids AS (
     SELECT id
     FROM genres
     WHERE genre IN (${placeholders})
   )
   INSERT INTO users_genres (user_id, genre_id)
-  SELECT (SELECT id FROM user_id), id
-  FROM genre_ids;
+  SELECT $1, id
+  FROM genre_ids
+  ON CONFLICT (user_id, genre_id) DO NOTHING;
 `;
+
  const query2 = `
  DELETE FROM users_genres
  WHERE genre_id NOT IN (
    SELECT id
    FROM genres
    WHERE genre IN (${placeholders})
- ) AND user_id = (
-   SELECT id
-   FROM users
-   WHERE email = $1
- );
-`;
+ ) AND user_id = $1;`;
+//  console.log(values)
+const checkAndInsertQuery = {
+  text: query1,
+  values: values,
+};
 
+const deleteQuery = {
+  text: query2,
+  values: values,
+};
 
-await pool.query(query1, values);
-await pool.query(query2, values);
-  res.json('cool')}
-  catch(err) {
-    res.json(err)
+pool.query(checkAndInsertQuery, (err, resp) => {
+  if (err) {
+    console.error('Error executing check and insert query', err.stack);
+    return;
   }
+
+  // console.log('Check and insert query result:', resp);
+
+  pool.query(deleteQuery, (err, resp) => {
+    if (err) {
+      console.error('Error executing delete query', err.stack);
+      return;
+    }
+
+    // console.log('Delete query result:', resp);
+    res.json('cool')
+  });
+});
+}
+ catch(err) {
+  res.json(err);
+ }
 });
 
 router.post('/info/', async (req, res) => {
@@ -82,7 +101,8 @@ router.post('/info/', async (req, res) => {
   avator = EXCLUDED.avator,
   bio = EXCLUDED.bio;
   `;
-  const values = [username, avator, email, bio];
+
+  const values = [username, avator, email, JSON.stringify(bio)];
 
   pool.query(text, values)
   .then(() => {
