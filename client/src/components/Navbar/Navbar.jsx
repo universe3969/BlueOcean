@@ -7,24 +7,15 @@ import { useUserStore } from "../Store/store.js";
 
 // Navigation tabs title
 export default function Navbar() {
-  let tabs = ['Home', 'Books', 'Friends', 'Posts', 'Messages', 'Profile', 'Explore'];
   const curId = useUserStore((state) => state.curId);
-  const [currentPath, setCurrentPath] = useState('/');
-  if(!curId){
-    tabs = ['Books']
-  }
-
-  // Whenever current url changes, it should reset the [currentPath] state
-  useEffect(() => {
-    const onPathChange = () => setCurrentPath(window.location.pathname);
-    window.addEventListener('popstate', onPathChange);
-
-    return () => window.removeEventListener('popstate', onPathChange);
-  }, []);
+  let tabs = curId ? ['Posts', 'Books', 'Messages', 'Profile', 'Explore'] : ['Books'];
 
   // All navigation tab should show active state corresponding to url
   const navItems = tabs.map(tab => {
-    const path = `/${tab.toLowerCase()}`;
+    let path = `/${tab.toLowerCase()}`;
+
+    if (tab === 'Books') path += '/hottest';
+    if (tab === 'Profile') path += `/${curId}`;
 
     const onActive = ({ isActive }) => isActive ? 'app__sidebar--active' : null;
 
@@ -37,6 +28,7 @@ export default function Navbar() {
       </div>
     );
   });
+
   return (
     <aside className='app__sidebar'>
       <header>
