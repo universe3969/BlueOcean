@@ -29,6 +29,10 @@ app.get('/regular', function(req, res) {
   });
 });
 
+const tinder = require('./controllers/TinderController.js');
+app.use('/explore', tinder);
+
+
 // We can use this to have all routes below this to be protected routes
 // app.use(checkJwt);
 
@@ -40,7 +44,6 @@ app.get('/private', checkJwt, function(req, res) {
     message: 'Hello from a private endpoint! You need to be authenticated to see this.'
   });
 });
-
 app.get('/posts', async (req, res) => {
   console.log('posts rotue hit');
   let posts;
@@ -56,10 +59,10 @@ app.get('/posts', async (req, res) => {
 
 
 
-client.connect().then(() => {
-  console.log("database connected");
-  app.listen(PORT, () => console.log(`App listening on PORT ${PORT}`));
-});
+// client.connect().then(() => {
+//   console.log("database connected");
+//   app.listen(PORT, () => console.log(`App listening on PORT ${PORT}`));
+// });
 
 // I haven't gotten the DB running on my end yet so I abstracted the server.
 // app.listen(PORT, () => console.log(`App listening on PORT ${PORT}`))
