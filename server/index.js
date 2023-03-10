@@ -33,7 +33,7 @@ app.get('/regular', function(req, res) {
 // app.use(checkJwt);
 
 // This route needs authentication because it uses checkJWT as a second argument
-app.get('/private', function(req, res) {
+app.get('/private', checkJwt, function(req, res) {
   // how to grab user information if needed
   //console.log(req.query)
   res.json({
@@ -42,6 +42,7 @@ app.get('/private', function(req, res) {
 });
 
 app.get('/posts', async (req, res) => {
+  console.log('posts rotue hit');
   let posts;
   try {
     posts = await client.query('SELECT * FROM posts');

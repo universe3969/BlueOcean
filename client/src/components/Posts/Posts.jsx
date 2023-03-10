@@ -1,28 +1,57 @@
 import React, { useState, useEffect } from 'react';
 import Post from '../Feed/Post/Post.jsx';
+import { useAuth0 } from '@auth0/auth0-react';
+import axios from 'axios';
 // import postData from '../../../../server/database/seed/data/posts.json';
 import './Posts.scss';
 
 // Don't change this <main> wrapper, this tag is used in App.scss
 export default function Posts() {
   const [posts, setPosts] = useState([]);
+  const { getAccessTokenSilently } = useAuth0();
+  const user = useAuth0().user;
 
   useEffect(() => {
-    fetch('http://localhost:3002/posts')
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('HTTP error ' + response.status);
+    console.log('effect ran');
+    async function callProtectedFriends() {
+      const token = await getAccessTokenSilently();
+      console.log('token received successfully');
+      await axios.get("http://localhost:3002/posts", {
+        headers: {
+          authorization: `Bearer ${token}`
+        },
+        params: {
+          // we can use params to make specific calls to userid via email
+          user: user
         }
-        return response.json();
       })
-      .then(data => {
-        console.log(data);
-        setPosts(data);
-      })
-      .catch(error => {
-        console.error(error);
-      });
+        .then((data) => {
+          console.log(`data.data is: ${data.data}`);
+          setPosts(data.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+    callProtectedFriends();
   }, []);
+
+  // useEffect(() => {
+  //   fetch('http://localhost:3002/posts')
+  //     .then(response => {
+  //       if (!response.ok) {
+  //         throw new Error('HTTP error ' + response.status);
+  //       }
+  //       return response.json();
+  //     })
+  //     .then(data => {
+  //       console.log(data);
+  //       setPosts(data);
+  //     })
+  //     .catch(error => {
+  //       console.error(error);
+  //     });
+  // }, []);
 
   return (
     <main>

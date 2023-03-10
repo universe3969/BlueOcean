@@ -16,7 +16,7 @@ const Calls = () => {
 
   async function callProtectedApi() {
     const token = await getAccessTokenSilently();
-    const response = await axios.get("http://localhost:3000/private",{
+    const response = await axios.get("http://localhost:3000/private", {
       headers: {
         authorization: `Bearer ${token}`
       },
