@@ -28,7 +28,7 @@ const Messages = () => {
     axios
       .get(`http://localhost:3000/api/messages/${user.id}/${friendId}`)
       .then(response => {
-        console.log("what is response looks like: ", response.data)
+        // console.log("what is response looks like: ", response.data)
         const messages = response.data.map((message) => {
           const friendUsername = message.friendUsername;
           const fromId = message.fromId;
