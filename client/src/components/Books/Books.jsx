@@ -3,23 +3,23 @@ import { Routes, Route, Link, NavLink } from 'react-router-dom';
 import BookCard from './BookCard.jsx';
 import BookDetail from './BookDetail.jsx';
 import BookSearchBar from './BookSearchBar.jsx';
+import { useUserStore } from '../Store/store.js';
 import './Books.scss';
-
-const userId = 1;
 
 // Considering when user searching for a book, but that book does not exist
 // So user should be able to add a book if not exist, however he need to be login
 export default function Books() {
   const [currentTab, setCurrentTab] = useState('Hottest');
   const [allBooks, setAllBooks] = useState([]);
+  const { curId } = useUserStore();
 
   useEffect(() => {
     // didn't handle error right now, refactor later
     async function updateBooksByTab(tabTitle) {
       let url = 'http://localhost:3000/api/books';
 
-      if (tabTitle === 'Saved') {
-        url += '/user/2'; //this is hard-coded, subject to change later
+      if (tabTitle === 'Liked') {
+        url += `/user/${curId || -1}`; //this is hard-coded, subject to change later
       } else {
         url += `?sort=${tabTitle === 'Hottest' ? 'reviews' : 'date'}`;
       }
@@ -33,7 +33,8 @@ export default function Books() {
   }, [currentTab]);
 
   const bookList = allBooks.map(bookInfo => (<BookCard { ...bookInfo } />));
-  const bookTabs = ['Hottest', 'Lattest', 'Saved'].map(tabTitle => {
+  const options = curId ? ['Hottest', 'Lattest', 'Liked'] : ['Hottest', 'Lattest'];
+  const bookTabs = options.map(tabTitle => {
     const props = {
       to: `/books/${tabTitle.toLowerCase()}`,
       className: ({ isActive }) => isActive ? 'app__books__nav--active' : null,

@@ -4,6 +4,7 @@ import axios from 'axios'
 import ReactSelect from 'react-select';
 import { useNavigate } from "react-router-dom";
 import { useUserStore } from "../Store/store.js";
+import './EditProfile.scss';
 
 
 // Don't change this <main> wrapper, this tag is used in App.scss
@@ -142,7 +143,7 @@ export default function EditProfile() {
       .catch(err => {
         console.log(err);
       })
-  }, [user]);
+  }, [curId]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -155,18 +156,21 @@ export default function EditProfile() {
   }
 
   return (
-    <main>
+    <main className="editback">
+    <div className="editmain">
     <form onSubmit={handleSubmit}>
-      <label>Enter your photo:
+    <img src={inputs.avator} alt="Profile" className="profile-page-avatar" />
+      <label>Your Photo:
       <input
         type="text"
         name="avator"
+        placeholder="needs a url"
         value= {inputs.avator || ""}
         required
         onChange={handleChange}
       />
       </label>
-      <label>Enter your username:
+      <label>Your Username:
       <input
         type="text"
         name="username"
@@ -175,7 +179,7 @@ export default function EditProfile() {
         onChange={handleChange}
       />
       </label>
-      <label>Enter your Name:
+      <label>Your Name:
         <input
           name="name"
           required
@@ -183,7 +187,7 @@ export default function EditProfile() {
           onChange={handleBioChange}
         />
         </label>
-      <label>Enter your age:
+      <label>Your Age:
         <input
           name="age"
           required
@@ -191,7 +195,7 @@ export default function EditProfile() {
           onChange={handleBioChange}
         />
         </label>
-      <label>Enter your gender:
+      <label>Your Gender:
         <input
           name="gender"
           required
@@ -199,7 +203,7 @@ export default function EditProfile() {
           onChange={handleBioChange}
         />
          </label>
-      <label>Enter your interest:
+      <label>An Interest:
         <input
           name="interest1"
           required
@@ -207,29 +211,33 @@ export default function EditProfile() {
           onChange={handleBioChange}
         />
         </label>
-      <label>Enter your interest:
+      <label>An Interest:
         <input
           name="interest2"
           value={bio.interest2 || ""}
           onChange={handleBioChange}
         />
         </label>
-      <label>Enter your interest:
+      <label>An Interest:
         <input
           name="interest3"
           value={bio.interest3 || ""}
           onChange={handleBioChange}
         />
         </label>
+        <label>
+        Favorite Book Genres:
        <ReactSelect
           options={availableOptions}
           value={selectedOptions}
           onChange={setSelectedOptions}
           isMulti={true}
           isSearchable={true}
-        />
-        <input type="submit" />
+          />
+          </label>
+        <input className='subbutton' type="submit" />
     </form>
+    </div>
     </main>
   );
 }
