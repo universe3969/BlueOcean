@@ -3,6 +3,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import axios from 'axios'
 import ReactSelect from 'react-select';
 import { useNavigate } from "react-router-dom";
+import { useUserStore } from "../Store/store.js";
 
 
 // Don't change this <main> wrapper, this tag is used in App.scss
@@ -10,6 +11,7 @@ export default function EditProfile() {
   const {getAccessTokenSilently} = useAuth0();
   const user = useAuth0().user;
   const navigate = useNavigate();
+  const curId = useUserStore((state) => state.curId);
   const [selectedOptions, setSelectedOptions] = useState([]);
   const [availableOptions, setAvailableOptions] = useState([
   {value: 'apple', label: 'apple'}
@@ -42,7 +44,7 @@ export default function EditProfile() {
   };
 
   const data = {
-    bio: JSON.stringify(info),
+    bio: info,
     username: inputs.username,
     email : user?.email,
     avator: inputs.avator
@@ -50,7 +52,7 @@ export default function EditProfile() {
 
 
   async function callUserinfo() {
-    if(!inputs.email) return
+    if(!curId) return
     const token = await getAccessTokenSilently();
     const response = await axios.get("http://localhost:3000/users/info/",{
       headers: {
@@ -58,13 +60,12 @@ export default function EditProfile() {
       },
       params: {
         // we can use params to make specific calls to userid via email
-        id: inputs.email
+        id: curId
       }
     })
     .then(data => {
       // console.log(data)
       setInputs((values) => ({...values, username: data.data.username}));
-      inputs.username= data.data.username;
       bio.interest1= data.data.bio.interest[0]
       bio.interest2= data.data.bio.interest[1] || ""
       bio.interest3= data.data.bio.interest[2] || ""
@@ -78,14 +79,14 @@ export default function EditProfile() {
     .catch(error => console.error(error));
   }
   async function updateUserinfo() {
-    if(!inputs.email) return
+    if(!curId) return
     const token = await getAccessTokenSilently();
     const response = await axios.post("http://localhost:3000/users/info/",{data},{
       headers: {
         authorization: `Bearer ${token}`
       },
       params: {
-        id: inputs.email
+        id: curId
       },
     })
     .then(data => {
@@ -94,7 +95,7 @@ export default function EditProfile() {
     .catch(error => console.error(error));
   }
   async function callGenre() {
-    if(!inputs.email) return
+    if(!curId) return
     const token = await getAccessTokenSilently();
     const response = await axios.get("http://localhost:3000/users/genre/",{
       headers: {
@@ -102,25 +103,26 @@ export default function EditProfile() {
       },
       params: {
         // we can use params to make specific calls to userid via email
-        id: inputs.email
+        id: curId
       }
     })
     .then(data => setSelectedOptions(data.data))
   }
   async function updateGenre() {
-    if(!inputs.email) return
+    if(!curId) return
     const token = await getAccessTokenSilently();
     const response = await axios.post("http://localhost:3000/users/genre/",{selectedOptions},{
       headers: {
         authorization: `Bearer ${token}`
       },
       params: {
-        id: inputs.email
+        id: curId
       },
     })
   }
 
   useEffect(() => {
+    console.log(user)
     callUserinfo();
     callGenre();
     axios.get('http://localhost:3000/explore/genre-options')
@@ -140,15 +142,14 @@ export default function EditProfile() {
       .catch(err => {
         console.log(err);
       })
-  }, [inputs.email]);
+  }, [user]);
 
   const handleSubmit = (event) => {
-    console.log('axios',data)
     event.preventDefault();
     // Submit the updated form data to the server-side script using fetch or Axios
     updateUserinfo();
     updateGenre();
-    navigate("/explore")
+    // navigate("/explore")
 
     // console.log(inputs);
   }
