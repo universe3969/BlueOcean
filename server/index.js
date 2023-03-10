@@ -30,6 +30,10 @@ app.get('/regular', function(req, res) {
   });
 });
 
+const tinder = require('./controllers/TinderController.js');
+app.use('/explore', tinder);
+
+
 // We can use this to have all routes below this to be protected routes
 // app.use(checkJwt);
 
@@ -41,6 +45,12 @@ app.get('/private', function(req, res) {
     message: 'Hello from a private endpoint! You need to be authenticated to see this.'
   });
 });
+
+// ----------------- All Routers Below -------------------------
+// Books
+const books = require('./routers/books.js');
+app.use('/api/books', books);
+
 
 
 
