@@ -3,30 +3,38 @@ import {useParams} from 'react-router-dom';
 import './Profile.scss';
 import axios from 'axios';
 import moment from 'moment';
-
+import { useUserStore } from "../Store/store.js";
 // Don't change this <main> wrapper, this tag is used in App.scss
 export default function Profile () {
-  // const {id} = useParams();
+  const {id} = useParams();
   const [userData, setUserData] = useState();
   const [posts, setPosts] = useState();
+  const curId = useUserStore((state) => state.curId);
+  // if (!curId) return (
+  //   <div>Loading</div>
+  // )
+
+
 
   useEffect(() => {
-    axios.get(`http://localhost:3000/api/profile/bio/${2}`)
-      .then(res => {
-        setUserData(res.data);
-      })
-      .catch((err) => {
-        console.log(err)
-      });
+    if (curId) {
+      axios.get(`http://localhost:3000/api/profile/bio/${curId}`)
+        .then(res => {
+          setUserData(res.data);
+        })
+        .catch((err) => {
+          console.log(err)
+        });
 
-    axios.get(`http://localhost:3000/api/profile/posts/${5}`)
-      .then(res => {
-        setPosts(res.data);
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  }, []);
+      axios.get(`http://localhost:3000/api/profile/posts/${curId}`)
+        .then(res => {
+          setPosts(res.data);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
+  }, [curId]);
 
 
   let allBooks = userData ? userData.userBooks : [{cover_image: 'https://images.unsplash.com/photo-1599508704512-2f19efd1e35f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=735&q=80'}, {cover_image: 'https://plus.unsplash.com/premium_photo-1668790939920-f5f0a5c34b21?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=711&q=80'}, {cover_image: 'https://images.unsplash.com/photo-1601027847350-0285867c31f7?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80'}];
