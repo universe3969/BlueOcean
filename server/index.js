@@ -44,25 +44,19 @@ app.get('/private', checkJwt, function(req, res) {
     message: 'Hello from a private endpoint! You need to be authenticated to see this.'
   });
 });
-app.get('/posts', async (req, res) => {
-  console.log('posts rotue hit');
-  let posts;
-  try {
-    posts = await client.query('SELECT * FROM posts');
-    console.log(posts);
-  }
-  catch (err) {
-    console.log(err);
-  }
-  res.json(posts.rows);
+
+const PostsController = require('./controllers/PostsController.js');
+app.get('/posts', PostsController);
+
+const CreatePostController = require('./controllers/CreatePostController.js');
+app.post('/createpost', CreatePostController);
+
+
+
+client.connect().then(() => {
+  console.log("database connected");
+  app.listen(PORT, () => console.log(`App listening on PORT ${PORT}`));
 });
-
-
-
-// client.connect().then(() => {
-//   console.log("database connected");
-//   app.listen(PORT, () => console.log(`App listening on PORT ${PORT}`));
-// });
 
 // I haven't gotten the DB running on my end yet so I abstracted the server.
 // app.listen(PORT, () => console.log(`App listening on PORT ${PORT}`))

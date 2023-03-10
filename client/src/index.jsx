@@ -6,9 +6,10 @@ import { Auth0Provider } from "@auth0/auth0-react";
 
 
 const root = createRoot(document.querySelector("#root"));
+console.log(process.env.audience);
 root.render(
 <React.StrictMode>
-  <BrowserRouter>
+    <BrowserRouter>
     <Routes>
       <Route
         path="/*"

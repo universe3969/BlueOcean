@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Post from '../Feed/Post/Post.jsx';
+import MakePost from '../Feed/Post/MakePost.jsx';
 import { useAuth0 } from '@auth0/auth0-react';
 import axios from 'axios';
 // import postData from '../../../../server/database/seed/data/posts.json';
@@ -9,7 +10,10 @@ import './Posts.scss';
 export default function Posts() {
   const [posts, setPosts] = useState([]);
   const { getAccessTokenSilently } = useAuth0();
+
   const user = useAuth0().user;
+  const id = user?.id;
+  console.log(id);
 
   useEffect(() => {
     console.log('effect ran');
@@ -22,11 +26,11 @@ export default function Posts() {
         },
         params: {
           // we can use params to make specific calls to userid via email
-          user: user
+          user: id
         }
       })
         .then((data) => {
-          console.log(`data.data is: ${data.data}`);
+          // console.log(`data.data is: ${data.data}`);
           setPosts(data.data);
         })
         .catch((err) => {
@@ -36,33 +40,20 @@ export default function Posts() {
     callProtectedFriends();
   }, []);
 
-  // useEffect(() => {
-  //   fetch('http://localhost:3002/posts')
-  //     .then(response => {
-  //       if (!response.ok) {
-  //         throw new Error('HTTP error ' + response.status);
-  //       }
-  //       return response.json();
-  //     })
-  //     .then(data => {
-  //       console.log(data);
-  //       setPosts(data);
-  //     })
-  //     .catch(error => {
-  //       console.error(error);
-  //     });
-  // }, []);
-
   return (
     <main>
-       <div className="feed-container">
+      <div className="feed-container">
+        <MakePost />
         {posts.map((post) => {
         return (<Post
           key={post.id}
           book_id={post.book_id}
+          avator={post.avator}
+          cover_image={post.cover_image}
           user_id={post.user_id}
           body={post.body}
           type={post.type}
+          username={post.username}
         />);
       })}
     </div>

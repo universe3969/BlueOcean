@@ -60,23 +60,23 @@ const posts_type = `CREATE TYPE posts_type
 `;
 
 // Right now we don't support photos for posts
-// const posts = `CREATE TABLE posts (
-//   id SERIAL PRIMARY KEY,
-//   body TEXT NOT NULL,
-//   user_id INT NOT NULL REFERENCES users,
-//   book_id INT REFERENCES books,
-//   last_updated DATE DEFAULT NOW(),
-//   last_created DATE DEFAULT NOW(),
-//   type posts_type NOT NULL
-// )`;
+const posts = `CREATE TABLE posts (
+  id SERIAL PRIMARY KEY,
+  body TEXT NOT NULL,
+  user_id INT NOT NULL REFERENCES users,
+  book_id INT REFERENCES books,
+  last_updated DATE DEFAULT NOW(),
+  last_created DATE DEFAULT NOW(),
+  type posts_type NOT NULL
+)`;
 
-// const messages = `CREATE TABLE messages (
-//   id SERIAL PRIMARY KEY,
-//   body TEXT NOT NULL,
-//   from_id INT NOT NULL REFERENCES users,
-//   to_id INT NOT NULL REFERENCES users,
-//   date DATE DEFAULT NOW()
-// )`;
+const messages = `CREATE TABLE messages (
+  id SERIAL PRIMARY KEY,
+  body TEXT NOT NULL,
+  from_id INT NOT NULL REFERENCES users,
+  to_id INT NOT NULL REFERENCES users,
+  date DATE DEFAULT NOW()
+)`;
 
 module.exports = {
   books,
