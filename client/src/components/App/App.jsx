@@ -54,11 +54,9 @@ export default function App() {
         <Route path='/'>
           <Route index element={ <Root /> } />
           <Route path='books/*' element={ <Books /> } />
-          <Route path='home' element={ <Home /> } />
-          <Route path='friends' element={ <Friends /> } />
           <Route path='posts' element={ <Posts />} />
           <Route path='messages' element={ <Messages /> } />
-          <Route path='profile' element={ <Profile /> } />
+          <Route path='profile/:id' element={ <Profile /> } />
           <Route path='explore' element={ <Tinder /> } />
           <Route path='edit' element={<EditProfile />} />
           <Route path='*' element={ <ErrorPage /> } />
