@@ -35,7 +35,7 @@ const NewConversation = ({ userId, updateConversationList,onConversationClick, f
         body: messageBody,
       })
       .then((response) => {
-        console.log("newconversation part, what is response :", response.data)
+        // console.log("newconversation part, what is response :", response.data)
         updateConversationList();
         const friendId = response.data.to_id;
         fetchConversationHistory(friendId);
@@ -51,7 +51,7 @@ const NewConversation = ({ userId, updateConversationList,onConversationClick, f
       <form onSubmit={handleSubmit}>
         <label className="new-conversation-label">
           Select a friend:
-          <select className="new-conversation-select" value={selectedFriendId} onChange={handleFriendSelect}>
+          <select className="new-conversation-select" value={selectedFriendId || ''} onChange={handleFriendSelect}>
             <option value="">-- Please select --</option>
             {friends.map((friend) => (
               <option key={friend.id} value={friend.id}>
