@@ -6,12 +6,12 @@ const {pool} = require('../database/database.js')
 router.get('/', async(req, res) => {
 
   try {
-    console.log('querying');
+    // console.log('querying');
     const result = await pool.query(
       `SELECT * FROM books LIMIT 1000`
     )
     .then((data) => {
-      console.log('sending');
+      // console.log('sending');
       res.status(201).send(data);
     })
     res.json(result);
@@ -23,12 +23,12 @@ router.get('/', async(req, res) => {
 router.get('/genre-options', async(req, res) => {
 
   try {
-    console.log('querying options');
+    // console.log('querying options');
     const result = await pool.query(
       `SELECT * FROM genres`
     )
     .then((data) => {
-      console.log('sending genres');
+      //console.log('sending genres');
       res.status(201).send(data);
     });
     res.json(result);

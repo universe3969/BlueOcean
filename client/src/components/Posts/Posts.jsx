@@ -20,7 +20,7 @@ export default function Posts() {
     async function callProtectedFriends() {
       const token = await getAccessTokenSilently();
       console.log('token received successfully');
-      await axios.get("http://localhost:3002/posts", {
+      await axios.get("http://localhost:3000/posts", {
         headers: {
           authorization: `Bearer ${token}`
         },

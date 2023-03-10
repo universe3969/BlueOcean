@@ -21,7 +21,7 @@ function PostForm() {
 
   const handleSubmit = () => {
     const user_id = 10;
-    axios.post('http://localhost:3002/createpost', {
+    axios.post('http://localhost:3000/createpost', {
       body,
       book_id,
       type,

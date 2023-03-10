@@ -3,12 +3,16 @@ import Icons from './Icons.jsx';
 import { Link, NavLink } from 'react-router-dom';
 import './Navbar.scss';
 import LogSwitch from '../Login/LogSwitch.jsx'
+import { useUserStore } from "../Store/store.js";
 
 // Navigation tabs title
-const tabs = ['Home', 'Books', 'Friends', 'Posts', 'Messages', 'Profile', 'Explore'];
-
 export default function Navbar() {
+  let tabs = ['Home', 'Books', 'Friends', 'Posts', 'Messages', 'Profile', 'Explore'];
+  const curId = useUserStore((state) => state.curId);
   const [currentPath, setCurrentPath] = useState('/');
+  if(!curId){
+    tabs = ['Books']
+  }
 
   // Whenever current url changes, it should reset the [currentPath] state
   useEffect(() => {
@@ -20,13 +24,7 @@ export default function Navbar() {
 
   // All navigation tab should show active state corresponding to url
   const navItems = tabs.map(tab => {
-    let path;
-    if (tab === 'Profile') {
-      path = `/${tab.toLowerCase()}/1`;
-    } else {
-      path = `/${tab.toLowerCase()}`;
-    }
-    // const path = `/${tab.toLowerCase()}`;
+    const path = `/${tab.toLowerCase()}`;
 
     const onActive = ({ isActive }) => isActive ? 'app__sidebar--active' : null;
 
@@ -53,7 +51,7 @@ export default function Navbar() {
           <Link to='/posts'>{ Icons.Add() } Make a Post</Link>
         </section>
         <section>
-          { Icons.Settings({ title: 'Settings' }) }
+          {curId && <Link to='/edit'>{ Icons.Settings({ title: 'Settings' }) }</Link>}
           { Icons.LightMode({ title: 'LightMode' }) }
           { Icons.More({ title: 'More' }) }
           <LogSwitch/>

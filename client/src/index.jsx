@@ -9,7 +9,8 @@ const root = createRoot(document.querySelector("#root"));
 console.log(process.env.audience);
 root.render(
 <React.StrictMode>
-    <BrowserRouter>
+  <BrowserRouter>
+
     <Routes>
       <Route
         path="/*"
@@ -27,6 +28,7 @@ root.render(
           </Auth0Provider>}
       />
     </Routes>
+
   </BrowserRouter>
 </React.StrictMode>
 );
