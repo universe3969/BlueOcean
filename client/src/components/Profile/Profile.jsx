@@ -86,26 +86,26 @@ export default function Profile () {
           <div className="profile-page-name">{userData.user.bio.name}</div>
           <div className="profile-page-username">@{userData.user.username}</div>
           <img src={userData.user.avator} alt="Profile" className="profile-page-avatar" />
-          <div>Age: {userData.user.bio.age}</div>
-          <div>Gender: {userData.user.bio.gender}</div>
+          <div className="age">Age: {userData.user.bio.age}</div>
+          <div className="gender">Gender: {userData.user.bio.gender}</div>
           <div>
-            <h3>What books does this person like to read ?</h3>
+            <div className="profile-title">Saved Books</div>
             <div className="profile-page-books-container">
               {shuffledBooks.slice(0,3).map((book, index) => (
                 <img src={book.cover_image} alt="Book" key={index} className="profile-page-books"/>
               ))}
             </div>
-            <button onClick={showBooks}>See Some Books</button>
+            <button className="profile-seemore" onClick={showBooks}>See Some Books</button>
           </div>
 
           <div>
-            <h3>What book genres does this person like to read ?</h3>
+            <div className="profile-title">Liked Genres</div>
             <div className="profile-page-genres-container">
               {shuffledGenres.slice(0,3).map((genre, index) => (
-                    <p key={index}>{genre.genre}</p>
+                    <p className="profile-liked-genres" key={index}>{genre.genre}</p>
               ))}
             </div>
-            <button onClick={showGenres}>See Some Genres</button>
+            <button className="profile-seemore" onClick={showGenres}>See Some Genres</button>
           </div>
 
           <div className="profile-page-interests-container">
@@ -118,7 +118,6 @@ export default function Profile () {
                 <p key={index}>{interest}</p>
               )) : null} */}
           </div>
-          <button>Edit</button>
         </div>
 
 
