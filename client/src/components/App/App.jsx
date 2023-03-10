@@ -25,15 +25,17 @@ export default function App() {
         <Route path='*' element={ <Navbar /> } />
       </Routes>
       <Routes>
-        <Route path='/' element={ <Books /> } />
-        <Route path='/home' element={ <Home /> } />
-        <Route path='/books/*' element={ <Books /> } />
-        <Route path='/friends' element={ <Friends /> } />
-        <Route path='/posts' element={ <Posts />} />
-        <Route path='/messages' element={ <Messages /> } />
-        <Route path='/profile' element={ <Profile /> } />
-        <Route path='/explore' element={ <Tinder /> } />
-        <Route path='*' element={ <ErrorPage /> } />
+        <Route path='/'>
+          <Route index element={ <Root /> } />
+          <Route path='books/*' element={ <Books /> } />
+          <Route path='home' element={ <Home /> } />
+          <Route path='friends' element={ <Friends /> } />
+          <Route path='posts' element={ <Posts />} />
+          <Route path='messages' element={ <Messages /> } />
+          <Route path='profile' element={ <Profile /> } />
+          <Route path='explore' element={ <Tinder /> } />
+          <Route path='*' element={ <ErrorPage /> } />
+        </Route>
       </Routes>
     </>
   );

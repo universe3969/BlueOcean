@@ -5,9 +5,9 @@ const path = require("path");
 require("dotenv").config(path.join(__dirname, "./.env"));
 const axios = require('axios');
 const app = express();
-const client = require("./database/database");
+const {clients} = require("./database/database");
 const PORT = process.env.PORT || 3000;
-
+const profileRouter = require('./controllers/profile.js');
 
 
 app.use(cors())
@@ -31,6 +31,7 @@ app.get('/regular', function(req, res) {
 const tinder = require('./controllers/TinderController.js');
 app.use('/explore', tinder);
 
+app.use('/api/profile', profileRouter);
 
 // We can use this to have all routes below this to be protected routes
 // app.use(checkJwt);
@@ -50,12 +51,10 @@ const books = require('./routers/books.js');
 app.use('/api/books', books);
 
 
-
-
 // client.connect().then(() => {
 //   console.log("database connected");
 //   app.listen(PORT, () => console.log(`App listening on PORT ${PORT}`));
 // });
 
 // I haven't gotten the DB running on my end yet so I abstracted the server.
-app.listen(PORT, () => console.log(`App listening on PORT ${PORT}`))
+app.listen(PORT, () => console.log(`App listening on PORT ${PORT}`));
