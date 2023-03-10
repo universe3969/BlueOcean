@@ -115,8 +115,13 @@ router.post('/info/', async (req, res) => {
 });
 
 router.get('/id', async (req, res) => {
-  let email = req.query.id
-  pool.query('SELECT id FROM users WHERE email = $1', [email], (error, results) => {
+  let email = req.query.id.toString()
+  await pool.query(`
+  INSERT INTO users (email)
+  SELECT '${req.query.id}'
+  WHERE NOT EXISTS (SELECT id FROM users WHERE email = '${req.query.id}')`
+);
+  await pool.query('SELECT id FROM users WHERE email = $1', [email], (error, results) => {
     if (error) {
       console.error(error);
       return;

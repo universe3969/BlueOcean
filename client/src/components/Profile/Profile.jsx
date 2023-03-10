@@ -111,7 +111,9 @@ export default function Profile () {
           <div className="profile-page-interests-container">
             <div>Interests: </div>
             <div className="profile-page-interests">
-              <div className="profile-page-interest">{userData.user.bio.interest}</div>
+              <div className="profile-page-interest">{userData.user.bio.interest ? userData.user.bio.interest.map((interest, index) => (
+                  <p key={index}>{interest}</p>
+                )) :null}</div>
             </div>
 
               {/* {interests ? interests.map((interest, index) => (
