@@ -18,10 +18,10 @@ router.get('/', async(req, res) => {
   }
 });
 
-// Get book by ID
-router.get('/id/:id', async(req, res) => {
+// Get book by ID, but also need user id
+router.get('/id/:bookId/user/:userId', async(req, res) => {
   try {
-    const result = await model.queryBookById(req.params.id);
+    const result = await model.queryBookById(req.params);
     res.status(200).json(result); 
   } catch (err) {
     console.log(err);
@@ -46,6 +46,16 @@ router.get('/user/:userId', async(req, res) => {
   try {
     const result = await model.queryBooksByUser(req.params.userId);
     res.status(200).json(result); 
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: err });
+  }
+});
+
+router.put('/like', async(req, res) => {
+  try {
+    const result = await model.toggleBookLike(req.query);
+    res.status(201).json(result); 
   } catch (err) {
     console.log(err);
     res.status(500).json({ error: err });

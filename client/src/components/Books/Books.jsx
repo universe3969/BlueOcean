@@ -5,6 +5,8 @@ import BookDetail from './BookDetail.jsx';
 import BookSearchBar from './BookSearchBar.jsx';
 import './Books.scss';
 
+const userId = 1;
+
 // Considering when user searching for a book, but that book does not exist
 // So user should be able to add a book if not exist, however he need to be login
 export default function Books() {

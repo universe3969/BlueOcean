@@ -266,6 +266,11 @@ $color--contrast: tomato;
     justify-content: space-around;
     gap: 3rem;
 
+    &--active {
+      background: $color--font !important;
+      color: $color--background;
+    }
+
     & > * {
       font-size: 1rem;
       font-family: inherit;

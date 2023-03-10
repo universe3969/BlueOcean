@@ -1,18 +1,29 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
+
+const userId = 2;
 
 export default function BookDetail({ bookId }) {
   const id = bookId || useParams().id;
   const [bookInfo, setBookInfo] = useState(null);
+  const navigate = useNavigate();
+
+  async function updateBookInfo() {
+    const res = await fetch(`http://localhost:3000/api/books/id/${id}/user/${userId}`);
+    const json = await res.json();
+
+    setBookInfo(json);
+  }
+
+  async function toggleBookLike() {
+    const url = `http://localhost:3000/api/books/like?bookId=${id}&userId=${userId}`;
+    const res = await fetch(url, { method: 'PUT' });
+
+    if (res.ok) updateBookInfo();// subject to refactor...
+    else alert('Server Busy. Please Try Again Later...');
+  }
 
   useEffect(() => {
-    async function updateBookInfo() {
-      const res = await fetch(`http://localhost:3000/api/books/id/${id}`);
-      const json = await res.json();
-
-      setBookInfo(json);
-    }
-
     updateBookInfo();
   }, [id]);
 
@@ -22,7 +33,7 @@ export default function BookDetail({ bookId }) {
 
   const { 
     cover_image, title, author, description, genres,
-    publish_date, price, availablity, page_count,
+    publish_date, price, availablity, page_count, liked
   } = bookInfo;
 
   // right now this genre is not clickable, refactor later
@@ -35,6 +46,11 @@ export default function BookDetail({ bookId }) {
       }
     </div>
   );
+
+  const likeButtonProps = {
+    className: liked ? 'book__detail__CTA--active' : '',
+    onClick: toggleBookLike
+  };
 
   return (
     <div className='book__detail'>
@@ -62,11 +78,11 @@ export default function BookDetail({ bookId }) {
         </tr>
       </table>
       <div className='book__detail__CTA'>
-        <Link to='/posts' className='book__detail__CTA'>
+        <Link to='/posts'>
           Add a Review
         </Link>
-        <button className='book__detail__CTA'>
-          Save
+        <button { ...likeButtonProps }>
+          { liked ? 'Liked' : 'Like' }
         </button>
       </div>
     </div>

@@ -22,19 +22,27 @@ async function queryAllBooks({ sort='hottest', pageCount=10, page=1 }) {
 }
 
 // Return all information including genres and genre_id
-async function queryBookById(bookId) {
+async function queryBookById({ bookId, userId }) {
   let res = await pool.query('SELECT * FROM books WHERE id = $1', [bookId]);
 
   if (!res.rows.length) return null;
 
   const bookInfo = res.rows[0];
   bookInfo.genres = []; // { genre, genre_id }
+  bookInfo.liked = false;
 
   res = await pool.query('SELECT genre_id FROM books_genres WHERE book_id = $1', [bookId]);
   for (let {genre_id} of res.rows) {
     const res2 = await pool.query('SELECT genre FROM genres WHERE id = $1', [genre_id]);
     bookInfo.genres.push({ genre_id, genre: res2.rows[0].genre });
   }
+
+  res = await pool.query({
+    text: 'SELECT * FROM users_books WHERE user_id = $1 AND book_id = $2',
+    values: [userId, bookId]
+  });
+
+  if (res.rows.length) bookInfo.liked = true;
 
   return bookInfo;
 }
@@ -48,8 +56,8 @@ async function queryBooksByUser(userId) {
       SELECT book_id 
       FROM users_books
       WHERE user_id = $1
-    )
-    ORDER BY id DESC 
+      ORDER by id DESC
+    ) 
   `;
 
   const res = await pool.query(queryString, [userId]);
@@ -71,5 +79,30 @@ async function queryBooksByTitle(bookName) {
   return res.rows;
 }
 
+// Toggle book like
+async function toggleBookLike({ userId, bookId }) {
+  const checkQuery = 'SELECT * FROM users_books WHERE user_id = $1 AND book_id = $2';
+  const insertQuery = 'INSERT INTO users_books (user_id, book_id) VALUES ($1, $2)';
+  const deleteQuery = 'DELETE FROM users_books WHERE user_id = $1 AND book_id = $2';
+
+  const checkRes = await pool.query(checkQuery, [userId, bookId]);
+  
+  let res;
+  if (checkRes.rows.length) {
+    res = await pool.query(deleteQuery, [userId, bookId]);
+  } else {
+    res = await pool.query(insertQuery, [userId, bookId]);
+    console.log(res);
+  }
+  
+  return res;
+}
+
 // Only support three functions for now
-module.exports = { queryBooksByUser, queryAllBooks, queryBookById, queryBooksByTitle };
+module.exports = { 
+  toggleBookLike,
+  queryBooksByUser,
+  queryAllBooks, 
+  queryBookById, 
+  queryBooksByTitle 
+};
