@@ -36,7 +36,7 @@ export default function App() {
         id: email
       }
     })
-    .then(data => toggleId(data.data))
+    .then(data => toggleId(data.data.id))
   }
 
   useEffect(() => {
@@ -60,6 +60,7 @@ export default function App() {
           <Route path='messages' element={ <Messages /> } />
           <Route path='profile' element={ <Profile /> } />
           <Route path='explore' element={ <Tinder /> } />
+          <Route path='edit' element={<EditProfile />} />
           <Route path='*' element={ <ErrorPage /> } />
         </Route>
       </Routes>
