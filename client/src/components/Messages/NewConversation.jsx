@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-
 const NewConversation = ({ userId, updateConversationList,onConversationClick, fetchConversationHistory}) => {
   const [friends, setFriends] = useState([]);
   const [selectedFriendId, setSelectedFriendId] = useState(null);

@@ -7,7 +7,7 @@ const axios = require('axios');
 const app = express();
 const client = require("./database/database");
 const PORT = 3000;
-const messageRouter = require('./MessageRoutes.js');
+const messageRouter = require('./routers/MessageRoutes.js');
 
 
 

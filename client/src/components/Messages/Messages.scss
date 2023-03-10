@@ -235,6 +235,7 @@
 .new-conversation-container h2 {
   font-size: 24px;
   margin-bottom: 20px;
+  font-family: cursive;
 }
 
 .new-conversation-container form {
@@ -248,7 +249,7 @@
 .new-conversation-container label {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
   margin-bottom: 20px;
 }
 
@@ -272,10 +273,32 @@
   cursor: pointer;
 }
 
+.new-conversation-textarea {
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  font-family: Arial, sans-serif;
+  color: #333;
+  background-color: #f8f8f8;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  width: 390px;
+  height: 48px;
+}
+
+.new-conversation-textarea:focus {
+  outline: none;
+  border-color: #69c;
+  box-shadow: 2px 2px 5px rgba(102, 153, 204, 0.5);
+}
+
+
 .new-conversation-container button[type="submit"]:hover,
 .new-conversation-container button[type="button"]:hover {
-  background-color: #005ea6;
+  background-color: #02bc1b;
 }
+
 
 .friend-name {
   font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;

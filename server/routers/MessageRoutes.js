@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const {pool} = require('./database/database.js')
+const {pool} = require('../database/database.js')
 
 router.get('/:userId/friends', async (req, res) => {
   // console.log("try to get friends list from friends ", req.params)
