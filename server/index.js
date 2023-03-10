@@ -46,6 +46,11 @@ app.get('/private', function(req, res) {
   });
 });
 
+// ----------------- All Routers Below -------------------------
+// Books
+const books = require('./routers/books.js');
+app.use('/api/books', books);
+
 
 
 
