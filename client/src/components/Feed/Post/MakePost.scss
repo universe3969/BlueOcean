@@ -1,7 +1,22 @@
 .makePost {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
   padding: 15px;
 }
 
 .makePost label {
   margin-bottom: 10px;
+}
+
+.post-body-form {
+  min-width: 100%;
+}
+
+.submit-button {
+  background-color: transparent;
+  border: 1px solid grey;
+  border-radius: 5px;
+  height: 30px;
+  width: 120px;
 }

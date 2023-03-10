@@ -49,24 +49,18 @@ function PostForm() {
   return (
     <div className="makePost">
       <label>
-        Body:
-        <input type="text" value={body} onChange={handleBodyChange} />
+        <input type="text" className="post-body-form" value={body} onChange={handleBodyChange} placeholder="What's on your mind?" />
       </label>
-      <br />
       <label>
-        Book ID:
-        <input type="text" value={book_id} onChange={handleBookIdChange} />
+        <input type="text" value={book_id} onChange={handleBookIdChange} placeholder="What book is this about?" />
       </label>
-      <br />
       <label>
-        Post type:
         <select value={type} onChange={handlePostTypeChange}>
           <option value="post">Post</option>
           <option value="review">Review</option>
         </select>
       </label>
-      <br />
-      <button onClick={handleSubmit}>Submit</button>
+      <button onClick={handleSubmit} className="submit-button">Submit</button>
     </div>
   );
 }
