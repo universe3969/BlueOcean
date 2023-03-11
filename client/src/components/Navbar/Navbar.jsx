@@ -34,7 +34,7 @@ export default function Navbar() {
       <header>
         <Link to='/home'>
           { Icons.Logo() }
-          <h1>TinderBook</h1>
+          <h1>Scholar.ly</h1>
         </Link>
       </header>
       <nav>{ navItems }</nav>

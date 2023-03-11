@@ -5,9 +5,7 @@ import axios from 'axios';
 import { BsFillCheckCircleFill } from 'react-icons/bs';
 import { MdCancel } from 'react-icons/md';
 import ReactSelect from 'react-select';
-
 const Tinder = () => {
-
 const [position, setPosition] = useState(0);
 const [yPosition, setYPosition] = useState(0);
 const [bookPile, setBookPile] = useState([
@@ -103,14 +101,13 @@ const [availableOptions, setAvailableOptions] = useState([
   {value: 'apple', label: 'apple'}
 ])
 const [booksGenres, setBooksGenres] = useState([]);
-
-
-
+const [trigger, setTrigger] = useState([]);
+const [allBooks, setAllBooks] = useState([]);
 useEffect(() => {
   axios.get('http://localhost:3000/explore/')
   .then((data) => {
-
-    console.log(data.data.rows);
+    console.log('setting allBooks to this,', data.data.rows);
+    setAllBooks(data.data.rows);
     setBookPile(data.data.rows);
     axios.get('http://localhost:3000/explore/genre-options')
     .then((data) => {
@@ -126,15 +123,7 @@ useEffect(() => {
       })
       // console.log('this is the options array');
       setAvailableOptions(optionsArray);
-      axios.get('http://localhost:3000/explore/book-genres')
-      .then((data) => {
-        console.log('this is the books and genres join table data', data.data.rows);
-        setBooksGenres(data.data.rows);
-
-      })
-      .catch((err) => {
-        console.log('axios error acquring books_genres');
-      })
+      setTrigger([1]);
     })
     .catch((err) => {
       console.log('axios error acquiring options', err);
@@ -147,15 +136,12 @@ useEffect(() => {
   //UPDATE THE OPACITY AND ROTATE CSS VARIABLE BASED ON THE DRAGGABLE COMPONENT'S POSITIONING
   const opacity = 1 - (Math.abs(position) / 400);
   const rotate = `${((position / 300) * 20)}deg`;
-
   // USER CLICKED THE X BUTTON
   const swipeLeft = () => {
     if (bookPosition < bookPile.length-2) {
       setBookPosition(bookPosition+1)
     }
-
   }
-
   //USER CLICKED THE CHECK BUTTON
   const swipeRight = () => {
     if (bookPosition < bookPile.length-2) {
@@ -163,23 +149,26 @@ useEffect(() => {
     }
     //ADD BOOK TO COLLECTION
   }
-
-
-
-  // useEffect(() => {
-  //   const unfilteredBookPile = bookPile;
-  //   unfilteredBookPile.filter((book) => {
-  //     selectedOptions.some(genre => book.genre.includes(genre));
-  //   })
-  // }, [selectedOptions])
-
+  useEffect(() => {
+    if (trigger.length) {
+    axios.post('http://localhost:3000/explore/genres', {selectedOptions})
+    .then((data) => {
+      console.log('filtered books', data.data)
+      console.log('this is all books state', allBooks)
+      if (selectedOptions.length) {
+        setBookPile(data.data);
+        setBookPosition(0);
+        console.log('inside the if statement switching to this,', data.data)
+      } else {
+        setBookPile(allBooks);
+        setBookPosition(0);
+      }
+    })
+  }
+  }, [selectedOptions])
   return (
-
     <div className="tinder">
-
       <div className="center-container">
-
-
     <Draggable
       bounds={{ left: -400, right: 400, top: 0, bottom: 300}}
       position={{ x: position, y: yPosition }}
@@ -199,7 +188,6 @@ useEffect(() => {
           setPosition(0);
           setYPosition(0);
           //ADD BOOK TO COLLECTION
-
           //THIS IF STATEMENT PREVENTS USER FROM TRYING TO ACCESS AN INDEX THAT DOESN'T EXIST
           if (bookPosition < bookPile.length-2) {
             console.log('changing book position', bookPosition, bookPile.length);
@@ -221,12 +209,9 @@ useEffect(() => {
         }
       }}
     >
-
       {/* <div className="book-container"> */}
       <img src={bookPile[bookPosition].cover_image} className="draggable-component tinder-card" style={{'--opacity': opacity, '--rotate': rotate}}/>
-
       {/* </div> */}
-
     </Draggable>
     <img src={bookPile[bookPosition+1].cover_image} className="back-book" />
     <div className='lower-box'>
@@ -235,6 +220,9 @@ useEffect(() => {
       </div>
       <div className='small-title'>
         {bookPile[bookPosition].title}
+        <div className='author-name'>
+          {bookPile[bookPosition].author}
+        </div>
       </div>
       <div className='check' onClick={swipeRight}>
         <BsFillCheckCircleFill/>
@@ -243,10 +231,20 @@ useEffect(() => {
       </div>
       <div className="data-container">
         <div className='synopsis'>
-
-        {bookPile[bookPosition].description}
+          <div className='synopsis-title'>
+            Synopsis
+          </div>
+          <div className='synopsis-body'>
+            {bookPile[bookPosition].description}
+          </div>
+          <div className='price'>
+            Price: {`$${bookPile[bookPosition].price}`}
+          </div>
         </div>
         <div className="filter-container">
+          <div className='filter-title'>
+            Filter Genres
+          </div>
         <ReactSelect
           options={availableOptions}
           value={selectedOptions}
@@ -257,8 +255,6 @@ useEffect(() => {
       </div>
       </div>
     </div>
-
   )
 }
-
 export default Tinder
